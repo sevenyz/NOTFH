@@ -142,11 +142,19 @@ void ABoss::AttackOverlapEnd(UPrimitiveComponent * OverlappedComp, AActor * Othe
 
 void ABoss::Attack()
 {
-	//UE_LOG(LogTemp, Warning, TEXT("Attack"));
-	
-	if (bPlayerInArea)
+	if (bPlayerInArea && bCanAttack)
 	{
 		//Player->TakeDamage();
-		//UE_LOG(LogTemp, Warning, TEXT("PlayerTakeDamage"));
+
+		bCanAttack = false;
+
+		float Cooldown = 2.f;
+
+		GetWorld()->GetTimerManager().SetTimer(TimerAttack, this, &ABoss::EnableAttack, true, Cooldown);
 	}
+}
+
+void ABoss::EnableAttack()
+{
+	bCanAttack = true;
 }

@@ -61,9 +61,12 @@ public:
 
 	FTimerHandle TimerBerserkMood;
 
+	FTimerHandle TimerAttack;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	class UBoxComponent* AttackCollider;
 
+	UPROPERTY(BlueprintReadOnly)
 	bool bCanAttack = true;
 
 	UPROPERTY(BlueprintReadOnly)
@@ -108,4 +111,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void Attack();
+
+	UFUNCTION()
+	void EnableAttack();
 };
