@@ -7,7 +7,6 @@
 #include "FinalProjectAlphaCharacter.h"
 #include "GameFramework/Actor.h"
 #include "Boss.h"
-#include "Minion.h"
 
 // Sets default values
 ASlowTrap::ASlowTrap()
@@ -50,18 +49,6 @@ void ASlowTrap::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * Ot
 			Boss->ChangeSpeed(100, SlowTime);
 		}
 
-		Destroy();
-	}
-
-	else if (OtherActor->ActorHasTag("Minion"))
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Minion overlap with slow trap"))
-
-		AMinion* Minion = Cast<AMinion>(OtherActor);
-		if (Minion)
-		{
-			Minion->ChangeSpeed(100, SlowTime);
-		}
 		Destroy();
 	}
 
