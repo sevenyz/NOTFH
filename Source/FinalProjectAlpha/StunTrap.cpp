@@ -6,6 +6,7 @@
 #include "Components/BoxComponent.h"
 #include "FinalProjectAlphaCharacter.h"
 #include "Boss.h"
+#include "Minion.h"
 
 // Sets default values
 AStunTrap::AStunTrap()
@@ -38,6 +39,7 @@ void AStunTrap::Tick(float DeltaTime)
 
 void AStunTrap::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
 {
+
 	if (OtherActor->ActorHasTag("Boss"))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Boss overlap with stun trap"))
@@ -52,6 +54,17 @@ void AStunTrap::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * Ot
 		}
 
 		Destroy();
+	}
+
+	else if (OtherActor->ActorHasTag("Minion"))
+	{
+		AMinion* Minion = Cast<AMinion>(OtherActor);
+		if (Minion)
+		{	
+			Minion->ChangeSpeed(0, StunTime);
+			Minion->BlockRotation();
+			Destroy();
+		}
 	}
 
 	else if (OtherActor->ActorHasTag("Player"))

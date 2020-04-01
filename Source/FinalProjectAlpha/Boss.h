@@ -69,8 +69,8 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	bool bCanAttack = true;
 
-	UPROPERTY(BlueprintReadOnly)
-	bool bPlayerInArea = false;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	float StunTime;
 
 	class AFinalProjectAlphaCharacter* PlayerRef;
 
@@ -111,7 +111,4 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void Attack();
-
-	UFUNCTION()
-	void EnableAttack();
 };
