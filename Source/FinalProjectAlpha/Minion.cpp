@@ -3,6 +3,8 @@
 
 #include "Minion.h"
 #include "FinalProjectAlphaCharacter.h"
+#include "TimerManager.h"
+#include "Blueprint/AIBlueprintHelperLibrary.h"
 
 // Sets default values
 AMinion::AMinion()
@@ -33,6 +35,9 @@ AMinion::AMinion()
 void AMinion::BeginPlay()
 {
 	Super::BeginPlay();
+
+	AAIController* AIController = UAIBlueprintHelperLibrary::GetAIController(this);
+	AIController->UseBlackboard(BlackboardToUse, Blackboard);
 	
 }
 
@@ -43,6 +48,38 @@ void AMinion::Tick(float DeltaTime)
 
 }
 
+void AMinion::ChangeSpeed(float Speed, float Duration)
+{
+	PawnMovement->MaxSpeed = Speed;
+	StunTime = Duration;
+
+	TrapTimerHandle.Invalidate();
+	GetWorld()->GetTimerManager().SetTimer(TrapTimerHandle, this, &AMinion::SpeedReset, Duration, false);
+}
+
+void AMinion::SpeedReset()
+{
+	PawnMovement->MaxSpeed = 400.f;
+	this->bUseControllerRotationYaw = true;
+
+	if (Blackboard->HasValidAsset())
+	{
+		Blackboard->SetValueAsBool(IsStunnedKeyName, false);
+		UE_LOG(LogTemp, Warning, TEXT("set value false"))
+	}
+}
+
+void AMinion::BlockRotation()
+{	
+	this->bUseControllerRotationYaw = false;
+
+	if (Blackboard->HasValidAsset())
+	{
+		Blackboard->SetValueAsBool(IsStunnedKeyName, true);
+		UE_LOG(LogTemp, Warning, TEXT("set value true"))
+	}
+}
+
 void AMinion::AttackOverlap(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
 {
 	if (OtherActor->ActorHasTag("Player"))
@@ -51,23 +88,28 @@ void AMinion::AttackOverlap(UPrimitiveComponent * OverlappedComp, AActor * Other
 
 		if (PlayerRef)
 		{
-			bPlayerInArea = true;
+			bCanAttack = true;
 		}
 	}
 }
 
 void AMinion::AttackOverlapEnd(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex)
 {
-	bPlayerInArea = false;
+	bCanAttack = false;
 }
 
 void AMinion::Attack()
 {
-	if (bPlayerInArea)
+	if (bCanAttack)
 	{
-		//Player->TakeDamage();
+		UE_LOG(LogTemp, Warning, TEXT("PlayerTakeDamage"))
 	}
 }
 
+void AMinion::TakeDamage(int Damage)
+{
+	HP -= Damage;
+	UE_LOG(LogTemp, Warning, TEXT("MinionTakeDamage HP = %i"),HP)
+}
 
 

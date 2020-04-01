@@ -21,8 +21,8 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	class UBoxComponent* Collider;
 
-	UPROPERTY(EditAnywhere, Category = "Settings")
-	float StunTime = 2.f;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
+	float StunTime = 4.f;
 
 	FTimerHandle TimerControlBoolStun;
 

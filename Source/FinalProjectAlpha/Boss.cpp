@@ -44,6 +44,7 @@ void ABoss::Tick(float DeltaTime)
 void ABoss::ChangeSpeed(float Speed, float Duration)
 {
 	GetCharacterMovement()->MaxWalkSpeed = Speed;
+	StunTime = Duration;
 
 	TrapTimerHandle.Invalidate();
 	GetWorld()->GetTimerManager().SetTimer(TrapTimerHandle, this, &ABoss::SpeedReset, Duration, false);
@@ -94,10 +95,10 @@ void ABoss::Berserk()
 void ABoss::ControlBoolTrapBoss()
 {
 	if (BossStun) {
-		GetWorld()->GetTimerManager().SetTimer(TimerControlBoolStun, this, &ABoss::ResetBoolTrapBoss, true, TimerCheck);
+	GetWorld()->GetTimerManager().SetTimer(TimerControlBoolStun, this, &ABoss::ResetBoolTrapBoss, true, TimerCheck);
 	}
 	else if (BossDamage) {
-		GetWorld()->GetTimerManager().SetTimer(TimerControlBoolDamage, this, &ABoss::ResetBoolTrapBoss, true, TimerCheck);
+	GetWorld()->GetTimerManager().SetTimer(TimerControlBoolDamage, this, &ABoss::ResetBoolTrapBoss, true, TimerCheck);
 	}
 }
 
@@ -113,7 +114,7 @@ void ABoss::ResetBoolTrapBoss()
 	}
 	else
 	{
-		SpeedReset();
+		//SpeedReset();
 		BerserkMood = false;
 		GetWorld()->GetTimerManager().ClearTimer(TimerBerserkMood);
 	}
@@ -127,34 +128,21 @@ void ABoss::AttackOverlap(UPrimitiveComponent * OverlappedComp, AActor * OtherAc
 
 		if (PlayerRef)
 		{
-			bPlayerInArea = true;
-			//UE_LOG(LogTemp, Warning, TEXT("Overlap Player"));
-
+			bCanAttack = true;
 		}
 	}
 }
 
 void ABoss::AttackOverlapEnd(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex)
 {
-	bPlayerInArea = false;
-	//UE_LOG(LogTemp, Warning, TEXT("OverlapEnd Player"));
+	bCanAttack = false;
 }
 
 void ABoss::Attack()
 {
-	if (bPlayerInArea && bCanAttack)
+	if (bCanAttack)
 	{
-		//Player->TakeDamage();
-
-		bCanAttack = false;
-
-		float Cooldown = 2.f;
-
-		GetWorld()->GetTimerManager().SetTimer(TimerAttack, this, &ABoss::EnableAttack, true, Cooldown);
+		UE_LOG(LogTemp, Warning, TEXT("PlayerTakeDamage"))
 	}
 }
 
-void ABoss::EnableAttack()
-{
-	bCanAttack = true;
-}

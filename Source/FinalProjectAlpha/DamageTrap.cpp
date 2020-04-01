@@ -5,6 +5,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "Components/BoxComponent.h"
 #include "Boss.h"
+#include "Minion.h"
 
 // Sets default values
 ADamageTrap::ADamageTrap()
@@ -45,11 +46,22 @@ void ADamageTrap::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * 
 		ABoss* Boss = Cast<ABoss>(OtherActor);
 		if (Boss && Boss->BerserkMood == false)
 		{
-			Boss->HP =- Damage;
+			Boss->HP -= Damage;
 			Boss->BossDamage = true;
 			Boss->ControlBoolTrapBoss();
 		}
 
 		Destroy();
 	}
+
+	else if (OtherActor->ActorHasTag("Minion"))
+	{
+		AMinion* Minion = Cast<AMinion>(OtherActor);
+		if (Minion)
+		{
+			Minion->TakeDamage(Damage);
+			Destroy();
+		}
+	}
+
 }
