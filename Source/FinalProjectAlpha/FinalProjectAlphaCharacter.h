@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Player/BackpackPL.h"
+#include "Utility/DelegateMaster.h"
 #include "FinalProjectAlphaCharacter.generated.h"
 
 UCLASS(config=Game)
@@ -28,8 +30,6 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
-	virtual void Jump() override;
-
 #pragma region LineTrace Components
 
 	UPROPERTY(VisibleAnywhere, Category = "LineTrace")
@@ -49,26 +49,11 @@ public:
 
 #pragma region Trap Parameters
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	int CommonTrap;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	int CommonMaterial;
-
-	UPROPERTY(EditAnywhere)
-	TSubclassOf<AActor> TrapToSpawn;
-
-	UPROPERTY(EditAnywhere)
-	TSubclassOf<AActor> SlowTrap;
-
-	UPROPERTY(EditAnywhere)
-	TSubclassOf<AActor> StunTrap;
-
-	UPROPERTY(EditAnywhere)
-	TSubclassOf<AActor> DamageTrap;
-
 	UPROPERTY()
 	FTimerHandle TrapTimerHandle;
+
+	UPROPERTY()
+	bool CraftingMood;
 
 #pragma endregion
 
@@ -78,9 +63,12 @@ public:
 	int MaxHP = 100;
 
 	UPROPERTY(EditAnywhere, Category = "Parameters")
-	float MaxSprint = 700.0f;
+	int Damage = 20;
 
 	UPROPERTY(EditAnywhere, Category = "Parameters")
+	float MaxSprint = 700.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
 	float NormalSpeed = 600.0f;
 
 	UPROPERTY(EditAnywhere, Category = "Parameters")
@@ -90,10 +78,22 @@ public:
 	bool bBossInArea = false;
 
 	UPROPERTY(EditAnywhere, Category = "Parameters Attack")
+	bool bMinionArea = false;
+
+	UPROPERTY(EditAnywhere, Category = "Parameters Attack")
 	bool bCanAttack = true;
 
+	UPROPERTY(VisibleAnywhere, Category = "Reference")
 	class ABoss* BossRef;
 
+	UPROPERTY(VisibleAnywhere, Category = "Reference")
+	class AMinion* minionRef;
+
+	UPROPERTY(VisibleAnywhere, Category = "Reference")
+	class ADelegateMaster* delegateMaster;
+
+	UPROPERTY(EditAnywhere, Category = "Parameters Attack")
+	class AMyPlayerController* PlayerControllerRef;
 
 #pragma endregion
 
@@ -148,22 +148,10 @@ public:
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
 	UFUNCTION()
-	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-
-	UFUNCTION()
 	void AttackOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	UFUNCTION()
 	void AttackOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
-
-	UFUNCTION()
-	FHitResult GetTrapSpawnLocation(ECollisionChannel CollisionChannel);
-
-	UFUNCTION()
-	void PlaceTrap();
-
-	UFUNCTION()
-	void TrapCrafting();
 
 	UFUNCTION()
 	void ChangeSpeed(float Speed, float Duration);
@@ -173,15 +161,6 @@ public:
 
 	UFUNCTION()
 	void SpeedReset();
-
-	UFUNCTION()
-	void SetSlowTrap();
-
-	UFUNCTION()
-	void SetStunTrap();
-
-	UFUNCTION()
-	void SetDamageTrap();
 
 	UFUNCTION()
 	void Sprint();
@@ -200,5 +179,17 @@ public:
 
 	UFUNCTION()
 	void IncrementStamina();
+
+	UFUNCTION()
+	void OpenPannelCrafting();
+
+	UFUNCTION()
+	void ClosePannelCrafting();
+
+	UFUNCTION()
+	void ScrollUp();
+
+	UFUNCTION()
+	void ScrollDown();
 };
 

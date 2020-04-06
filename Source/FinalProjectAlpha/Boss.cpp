@@ -86,7 +86,7 @@ void ABoss::DamageCalculation()
 
 void ABoss::Berserk()
 {
-	BerserkMood = true;
+	bBerserkMood = true;
 	UE_LOG(LogTemp, Warning, TEXT("Berserk mood on"));
 	GetCharacterMovement()->MaxWalkSpeed = VelocityMovementBerserkMood;
 	GetWorld()->GetTimerManager().SetTimer(TimerBerserkMood, this, &ABoss::ResetBoolTrapBoss, true, TimerDurationBerserkMood);
@@ -94,28 +94,28 @@ void ABoss::Berserk()
 
 void ABoss::ControlBoolTrapBoss()
 {
-	if (BossStun) {
+	if (bBossStun) {
 	GetWorld()->GetTimerManager().SetTimer(TimerControlBoolStun, this, &ABoss::ResetBoolTrapBoss, true, TimerCheck);
 	}
-	else if (BossDamage) {
+	else if (bBossDamage) {
 	GetWorld()->GetTimerManager().SetTimer(TimerControlBoolDamage, this, &ABoss::ResetBoolTrapBoss, true, TimerCheck);
 	}
 }
 
 void ABoss::ResetBoolTrapBoss()
 {
-	if (BossStun) {
-		BossStun = false;
+	if (bBossStun) {
+		bBossStun = false;
 		GetWorld()->GetTimerManager().ClearTimer(TimerControlBoolStun);
 	}
-	if (BossDamage) {
-		BossDamage = false;
+	if (bBossDamage) {
+		bBossDamage = false;
 		GetWorld()->GetTimerManager().ClearTimer(TimerControlBoolDamage);
 	}
 	else
 	{
 		//SpeedReset();
-		BerserkMood = false;
+		bBerserkMood = false;
 		GetWorld()->GetTimerManager().ClearTimer(TimerBerserkMood);
 	}
 }

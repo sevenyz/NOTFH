@@ -11,6 +11,7 @@
 #include "GameFramework/FloatingPawnMovement.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "BehaviorTree/BlackboardData.h"
+#include "Magical_Essence.h"
 #include "AIController.h"
 
 #include "Minion.generated.h"
@@ -47,6 +48,12 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	int HP = 100;
+
+	UPROPERTY(EditAnywhere, Category = "Params Minion")
+	int Damage = 5;
+
+	UPROPERTY(EditAnywhere, Category = "Magic Essence")
+	TSubclassOf<AMagical_Essence> MagicalEssence;
 
 	class AFinalProjectAlphaCharacter* PlayerRef;
 
@@ -90,5 +97,5 @@ public:
 	void SpeedReset();
 
 	UFUNCTION()
-	void TakeDamage(int Damage);
+	void CalculateDamage(int value);
 };

@@ -106,10 +106,17 @@ void AMinion::Attack()
 	}
 }
 
-void AMinion::TakeDamage(int Damage)
+void AMinion::CalculateDamage(int damageDirect)
 {
-	HP -= Damage;
-	UE_LOG(LogTemp, Warning, TEXT("MinionTakeDamage HP = %i"),HP)
+
+	HP -= damageDirect;
+
+	if (HP <= 0)
+	{
+		FVector locationToSpawn = (GetActorLocation() + FVector(0.0f, 0.0f, 50.0f));
+		FRotator rotatorToSpawn = FRotator::ZeroRotator;
+
+		GetWorld()->SpawnActor(MagicalEssence, &locationToSpawn, &rotatorToSpawn);
+		Destroy(this);
+	}
 }
-
-

@@ -1,5 +1,6 @@
 // Copyright 1998-2019 Epic Games, Inc. All Rights Reserved.
 
+
 #include "FinalProjectAlphaCharacter.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
@@ -12,6 +13,11 @@
 #include "DrawDebugHelpers.h"
 #include "TimerManager.h"
 #include "Boss.h"
+#include "Minion.h"
+#include "Player/MyPlayerController.h"
+#include "GameFramework/WorldSettings.h"
+#include "Engine/World.h"
+#include "Kismet/GameplayStatics.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AFinalProjectAlphaCharacter
@@ -62,7 +68,8 @@ AFinalProjectAlphaCharacter::AFinalProjectAlphaCharacter()
 	AttackCollider->OnComponentBeginOverlap.AddDynamic(this, &AFinalProjectAlphaCharacter::AttackOverlap);
 	AttackCollider->OnComponentEndOverlap.AddDynamic(this, &AFinalProjectAlphaCharacter::AttackOverlapEnd);
 
-	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &AFinalProjectAlphaCharacter::OnOverlapBegin);
+	CraftingMood = false;
+
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -72,34 +79,36 @@ void AFinalProjectAlphaCharacter::SetupPlayerInputComponent(class UInputComponen
 {
 	// Set up gameplay key bindings
 	check(PlayerInputComponent);
-	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AFinalProjectAlphaCharacter::Jump);
-	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
-
 	PlayerInputComponent->BindAxis("MoveForward", this, &AFinalProjectAlphaCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AFinalProjectAlphaCharacter::MoveRight);
 
-	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
-	// "turn" handles devices that provide an absolute delta, such as a mouse.
-	// "turnrate" is for devices that we choose to treat as a rate of change, such as an analog joystick
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("TurnRate", this, &AFinalProjectAlphaCharacter::TurnAtRate);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis("LookUpRate", this, &AFinalProjectAlphaCharacter::LookUpAtRate);
 
-	PlayerInputComponent->BindAction("SetSlowTrap", IE_Pressed, this, &AFinalProjectAlphaCharacter::SetSlowTrap);
-	PlayerInputComponent->BindAction("SetStunTrap", IE_Pressed, this, &AFinalProjectAlphaCharacter::SetStunTrap);
-	PlayerInputComponent->BindAction("SetDamageTrap", IE_Pressed, this, &AFinalProjectAlphaCharacter::SetDamageTrap);
+	PlayerInputComponent->BindAction("ScrollUpTrap", IE_Pressed, this, &AFinalProjectAlphaCharacter::ScrollUp);
+	PlayerInputComponent->BindAction("ScrollDownTrap", IE_Pressed, this, &AFinalProjectAlphaCharacter::ScrollDown);
 
 	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AFinalProjectAlphaCharacter::Attack);
 
 	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &AFinalProjectAlphaCharacter::Sprint);
 	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &AFinalProjectAlphaCharacter::StopSprint);
+
+	PlayerInputComponent->BindAction("Crafting", IE_Pressed, this, &AFinalProjectAlphaCharacter::OpenPannelCrafting);
+	PlayerInputComponent->BindAction("Crafting", IE_Released, this, &AFinalProjectAlphaCharacter::ClosePannelCrafting);
 }
 
 void AFinalProjectAlphaCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	PlayerControllerRef = Cast<AMyPlayerController>(UGameplayStatics::GetPlayerController(this, 0));
+
+	delegateMaster = Cast<ADelegateMaster>(UGameplayStatics::GetActorOfClass(GetWorld(), ADelegateMaster::StaticClass()));
+
 }
+
 
 void AFinalProjectAlphaCharacter::Tick(float DeltaTime)
 {
@@ -125,20 +134,34 @@ void AFinalProjectAlphaCharacter::BlockRotation()
 
 void AFinalProjectAlphaCharacter::Attack()
 {
-	if (bBossInArea && bCanAttack)
+	if (bCanAttack)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Attack"))
-
-		if (BossRef->BossStun) 
+		if (bBossInArea)
 		{
-			BossRef->Berserk();
+
+			if (BossRef->bBossStun)
+			{
+				BossRef->Berserk();
+			}
+
+			BossRef->DamageCalculation();
+
+			bCanAttack = false;
+
+			GetWorld()->GetTimerManager().SetTimer(TrapTimerHandle, this, &AFinalProjectAlphaCharacter::CanAttack, 0.5f, false);
+
 		}
 
-		BossRef->DamageCalculation();
+		if (bMinionArea)
+		{
 
-		bCanAttack = false;
+			minionRef->CalculateDamage(Damage);
 
-		GetWorld()->GetTimerManager().SetTimer(TrapTimerHandle, this, &AFinalProjectAlphaCharacter::CanAttack, 0.3f, false);
+			bCanAttack = false;
+
+			GetWorld()->GetTimerManager().SetTimer(TrapTimerHandle, this, &AFinalProjectAlphaCharacter::CanAttack, 0.5f, false);
+
+		}
 	}
 }
 
@@ -147,27 +170,29 @@ void AFinalProjectAlphaCharacter::CanAttack()
 	bCanAttack = true;
 }
 
-void AFinalProjectAlphaCharacter::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
-{
-	if (OtherActor->ActorHasTag("CommonMaterial"))
-	{
-		CommonMaterial += 5;
-		UE_LOG(LogTemp, Warning, TEXT("Common material + 1"))
-	}
-}
-
 void AFinalProjectAlphaCharacter::AttackOverlap(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
 {
 	if (OtherActor->ActorHasTag("Boss"))
 	{
 		BossRef = Cast<ABoss>(OtherActor);
-		
+
 		if (BossRef)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Attack player is possible"))
+			UE_LOG(LogTemp, Warning, TEXT("Attack player is possible Boss"))
 
-			bBossInArea = true;
+				bBossInArea = true;
+		}
+	}
 
+	if (OtherActor->ActorHasTag("Minion"))
+	{
+		minionRef = Cast<AMinion>(OtherActor);
+
+		if (minionRef)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Attack player no possible Minion"));
+
+			bMinionArea = true;
 		}
 	}
 }
@@ -176,9 +201,16 @@ void AFinalProjectAlphaCharacter::AttackOverlapEnd(UPrimitiveComponent * Overlap
 {
 	if (OtherActor->ActorHasTag("Boss"))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Attack player no possible"));
+		UE_LOG(LogTemp, Warning, TEXT("Attack player no possible Boss"));
 
 		bBossInArea = false;
+	}
+
+	else if (OtherActor->ActorHasTag("Minion"))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Attack player no possible Minion"));
+
+		bMinionArea = false;
 	}
 }
 
@@ -224,13 +256,6 @@ void AFinalProjectAlphaCharacter::MoveRight(float Value)
 	}
 }
 
-void AFinalProjectAlphaCharacter::Jump()
-{
-	if (Stamina > 4) {
-		Super::Jump();
-		Stamina -= StaminaJump;
-	}
-}
 #pragma endregion
 
 #pragma region Stamina Function
@@ -257,7 +282,6 @@ void AFinalProjectAlphaCharacter::DecrementStamina()
 	else
 	{
 		Stamina--;
-		UE_LOG(LogTemp, Warning, TEXT("Stamina is %d"), Stamina);
 	}
 }
 
@@ -269,80 +293,44 @@ void AFinalProjectAlphaCharacter::IncrementStamina()
 	else
 	{
 		Stamina++;
-		UE_LOG(LogTemp, Warning, TEXT("Stamina is %d"), Stamina);
 	}
 }
 
 #pragma endregion
 
-#pragma region Trap Manager
-
-void AFinalProjectAlphaCharacter::PlaceTrap()
+void AFinalProjectAlphaCharacter::OpenPannelCrafting()
 {
-	TrapCrafting();
-
-	if (CommonTrap >= 1)
+	if (PlayerControllerRef != nullptr)
 	{
-		FVector SpawnLocation = GetTrapSpawnLocation(ECollisionChannel::ECC_WorldStatic).ImpactPoint;
-		CommonTrap--;
-
-		if (TrapToSpawn && SpawnLocation != FVector::ZeroVector)
-		{
-			FRotator SpawnRotation = FRotator::ZeroRotator;
-			GetWorld()->SpawnActor(TrapToSpawn, &SpawnLocation, &SpawnRotation);
-
-			UE_LOG(LogTemp, Warning, TEXT("%s spawned"), *TrapToSpawn->GetName())
-		}
+		PlayerControllerRef->OpenCrafting();
+		CameraBoom->bUsePawnControlRotation = false;
+		GetCharacterMovement()->bOrientRotationToMovement = false;
+		UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.2);
+		this->CustomTimeDilation = 1;
 	}
 }
 
-void AFinalProjectAlphaCharacter::TrapCrafting()
+void AFinalProjectAlphaCharacter::ClosePannelCrafting()
 {
-	if (CommonMaterial >= 3)
+	if (PlayerControllerRef != nullptr)
 	{
-		CommonMaterial -= 3;
-		CommonTrap++;
-
-		UE_LOG(LogTemp, Warning, TEXT("Trap crafted: %s"), *TrapToSpawn->GetName())
-			UE_LOG(LogTemp, Warning, TEXT("Materials amount: %i"), CommonMaterial)
-			UE_LOG(LogTemp, Warning, TEXT("Traps amount: %i"), CommonTrap)
-	}
-
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Not enough materials"))
+		PlayerControllerRef->CloseCrafting();
+		CameraBoom->bUsePawnControlRotation = true;
+		GetCharacterMovement()->bOrientRotationToMovement = true;
+		delegateMaster->SwitchImage.ExecuteIfBound();
+		UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 1);
+		this->CustomTimeDilation = 1;
 	}
 }
 
-FHitResult AFinalProjectAlphaCharacter::GetTrapSpawnLocation(ECollisionChannel CollisionChannel)
+void AFinalProjectAlphaCharacter::ScrollUp()
 {
-	FHitResult Hit;
-	FCollisionQueryParams TraceParams(FName(TEXT("")), false, GetOwner());
-
-	GetWorld()->LineTraceSingleByObjectType(Hit,
-		LineTraceStartPoint->GetComponentLocation(),
-		LineTraceEndPoint->GetComponentLocation(),
-		FCollisionObjectQueryParams(CollisionChannel), TraceParams);
-
-	return Hit;
+	delegateMaster->bImageUp = true;
+	delegateMaster->SwitchImage.ExecuteIfBound();
 }
 
-void AFinalProjectAlphaCharacter::SetSlowTrap()
+void AFinalProjectAlphaCharacter::ScrollDown()
 {
-	TrapToSpawn = SlowTrap;
-	PlaceTrap();
+	delegateMaster->bImageDown = true;
+	delegateMaster->SwitchImage.ExecuteIfBound();
 }
-
-void AFinalProjectAlphaCharacter::SetStunTrap()
-{
-	TrapToSpawn = StunTrap;
-	PlaceTrap();
-}
-
-void AFinalProjectAlphaCharacter::SetDamageTrap()
-{
-	TrapToSpawn = DamageTrap;
-	PlaceTrap();
-}
-
-#pragma endregion

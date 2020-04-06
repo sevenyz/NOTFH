@@ -26,9 +26,11 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	UBlackboardData* BlackboardToUse;
-	
+
+	UPROPERTY(EditAnywhere)
 	UBlackboardComponent* Blackboard;
 
+	UPROPERTY(EditAnywhere)
 	FName IsStunnedKeyName = "IsStunned";
 
 	UPROPERTY()
@@ -38,16 +40,19 @@ public:
 	int	HP = 100;
 
 	UPROPERTY(VisibleAnywhere, Category = "Parameters")
-	bool BerserkMood = false;
+	bool bBerserkMood = false;
 
 	UPROPERTY(VisibleAnywhere, Category = "Parameters")
-	bool BossStun = false;
+	bool bBossStun = false;
 
 	UPROPERTY(VisibleAnywhere, Category = "Parameters")
-	bool BossDamage = false;
+	bool bBossDamage = false;
 
 	UPROPERTY(VisibleAnywhere)
 	float TimerCheck = 4.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
+	float StunTime;
 
 	UPROPERTY(EditAnywhere, Category = "Berserk Mood")
 	float TimerDurationBerserkMood = 10.0f;
@@ -69,8 +74,8 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	bool bCanAttack = true;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	float StunTime;
+	UPROPERTY(BlueprintReadOnly)
+	bool bPlayerInArea = false;
 
 	class AFinalProjectAlphaCharacter* PlayerRef;
 
