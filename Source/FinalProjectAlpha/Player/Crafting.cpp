@@ -56,9 +56,9 @@ void UCrafting::ControllTrap(int index)
 {
 	if (index == 0)
 	{
-		if (BackpackRef->MagicEssence >= 2)
+		if (BackpackRef->MagicEssence >= DamageTrapCost)
 		{
-			BackpackRef->MagicEssence -= 2;
+			BackpackRef->MagicEssence -= DamageTrapCost;
 			delegateMaster->AddTrap.ExecuteIfBound();
 			delegateMaster->SwitchImage.ExecuteIfBound();
 			UE_LOG(LogTemp, Warning, TEXT("Trap create is Damage"))
@@ -70,9 +70,9 @@ void UCrafting::ControllTrap(int index)
 	}
 	else if (index == 1)
 	{
-		if (BackpackRef->MagicEssence >= 2)
+		if (BackpackRef->MagicEssence >= SlowTrapCost)
 		{
-			BackpackRef->MagicEssence -= 2;
+			BackpackRef->MagicEssence -= SlowTrapCost;
 			delegateMaster->SwitchImage.ExecuteIfBound();
 			delegateMaster->AddTrap.ExecuteIfBound();
 			UE_LOG(LogTemp, Warning, TEXT("Trap create is Stun"))
@@ -84,9 +84,9 @@ void UCrafting::ControllTrap(int index)
 	}
 	else
 	{
-		if (BackpackRef->MagicEssence >= 2)
+		if (BackpackRef->MagicEssence >= StunTrapCost)
 		{
-			BackpackRef->MagicEssence -= 2;
+			BackpackRef->MagicEssence -= StunTrapCost;
 			delegateMaster->SwitchImage.ExecuteIfBound();
 			delegateMaster->AddTrap.ExecuteIfBound();
 			UE_LOG(LogTemp, Warning, TEXT("Trap create is Slow"))

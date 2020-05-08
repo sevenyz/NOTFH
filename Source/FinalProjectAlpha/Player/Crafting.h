@@ -17,17 +17,24 @@ public:
 	// Sets default values for this component's properties
 	UCrafting();
 
-	UPROPERTY(VisibleAnywhere)
 	class UBackpackPL* BackpackRef;
 
-	UPROPERTY(VisibleAnywhere)
 	class ADelegateMaster* delegateMaster;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "HUD")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TSubclassOf<class AActor> TrapSelected;
 
 	UPROPERTY(EditAnywhere)
 	TArray<TSubclassOf<AActor>> AllActorTrap;
+
+	UPROPERTY(EditAnywhere, Category = "TrapCost")
+	int32 DamageTrapCost;
+
+	UPROPERTY(EditAnywhere, Category = "TrapCost")
+	int32 SlowTrapCost;
+
+	UPROPERTY(EditAnywhere, Category = "TrapCost")
+	int32 StunTrapCost;
 
 protected:
 	// Called when the game starts

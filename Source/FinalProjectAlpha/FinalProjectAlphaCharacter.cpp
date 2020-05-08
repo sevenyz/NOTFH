@@ -56,19 +56,13 @@ AFinalProjectAlphaCharacter::AFinalProjectAlphaCharacter()
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 
-	LineTraceStartPoint = CreateDefaultSubobject<USceneComponent>(TEXT("LineTraceStartPoint"));
-	LineTraceEndPoint = CreateDefaultSubobject<USceneComponent>(TEXT("LineTraceEndPoint"));
-
-	LineTraceStartPoint->SetupAttachment(RootComponent);
-	LineTraceEndPoint->SetupAttachment(RootComponent);
-
 	AttackCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("AttackCollider"));
 	AttackCollider->SetupAttachment(RootComponent);
 	
 	AttackCollider->OnComponentBeginOverlap.AddDynamic(this, &AFinalProjectAlphaCharacter::AttackOverlap);
 	AttackCollider->OnComponentEndOverlap.AddDynamic(this, &AFinalProjectAlphaCharacter::AttackOverlapEnd);
 
-	CraftingMood = false;
+	CraftingMode = false;
 
 }
 
@@ -112,7 +106,7 @@ void AFinalProjectAlphaCharacter::BeginPlay()
 
 void AFinalProjectAlphaCharacter::Tick(float DeltaTime)
 {
-	DrawDebugLine(GetWorld(), LineTraceStartPoint->GetComponentLocation(), LineTraceEndPoint->GetComponentLocation(), FColor::Red);
+	//DrawDebugLine(GetWorld(), LineTraceStartPoint->GetComponentLocation(), LineTraceEndPoint->GetComponentLocation(), FColor::Red);
 }
 
 void AFinalProjectAlphaCharacter::ChangeSpeed(float Speed, float Duration)
@@ -127,6 +121,7 @@ void AFinalProjectAlphaCharacter::SpeedReset()
 	GetCharacterMovement()->RotationRate.Yaw = MaxRotation;
 }
 
+// forse da levare
 void AFinalProjectAlphaCharacter::BlockRotation()
 {
 	GetCharacterMovement()->RotationRate.Yaw = 0.f;
@@ -148,6 +143,7 @@ void AFinalProjectAlphaCharacter::Attack()
 
 			bCanAttack = false;
 
+			// implementare con animazione
 			GetWorld()->GetTimerManager().SetTimer(TrapTimerHandle, this, &AFinalProjectAlphaCharacter::CanAttack, 0.5f, false);
 
 		}
@@ -159,12 +155,14 @@ void AFinalProjectAlphaCharacter::Attack()
 
 			bCanAttack = false;
 
+			// implementare con animazione
 			GetWorld()->GetTimerManager().SetTimer(TrapTimerHandle, this, &AFinalProjectAlphaCharacter::CanAttack, 0.5f, false);
 
 		}
 	}
 }
 
+// da implementare con l'animazione
 void AFinalProjectAlphaCharacter::CanAttack()
 {
 	bCanAttack = true;
@@ -178,9 +176,7 @@ void AFinalProjectAlphaCharacter::AttackOverlap(UPrimitiveComponent * Overlapped
 
 		if (BossRef)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Attack player is possible Boss"))
-
-				bBossInArea = true;
+			bBossInArea = true;
 		}
 	}
 
@@ -190,8 +186,6 @@ void AFinalProjectAlphaCharacter::AttackOverlap(UPrimitiveComponent * Overlapped
 
 		if (minionRef)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Attack player no possible Minion"));
-
 			bMinionArea = true;
 		}
 	}

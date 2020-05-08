@@ -23,22 +23,11 @@ class AFinalProjectAlphaCharacter : public ACharacter
 
 #pragma endregion
 
-
 public:
 
 	AFinalProjectAlphaCharacter();
 
 	virtual void Tick(float DeltaTime) override;
-
-#pragma region LineTrace Components
-
-	UPROPERTY(VisibleAnywhere, Category = "LineTrace")
-	USceneComponent* LineTraceStartPoint;
-
-	UPROPERTY(VisibleAnywhere, Category = "LineTrace")
-	USceneComponent* LineTraceEndPoint;
-
-#pragma endregion
 
 #pragma region Attack Components
 
@@ -53,7 +42,7 @@ public:
 	FTimerHandle TrapTimerHandle;
 
 	UPROPERTY()
-	bool CraftingMood;
+	bool CraftingMode;
 
 #pragma endregion
 
@@ -74,25 +63,21 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Parameters")
 	float MaxRotation = 540.0f;
 
-	UPROPERTY(EditAnywhere, Category = "Parameters Attack")
+	UPROPERTY()
 	bool bBossInArea = false;
 
-	UPROPERTY(EditAnywhere, Category = "Parameters Attack")
+	UPROPERTY()
 	bool bMinionArea = false;
 
-	UPROPERTY(EditAnywhere, Category = "Parameters Attack")
+	UPROPERTY()
 	bool bCanAttack = true;
 
-	UPROPERTY(VisibleAnywhere, Category = "Reference")
 	class ABoss* BossRef;
 
-	UPROPERTY(VisibleAnywhere, Category = "Reference")
 	class AMinion* minionRef;
 
-	UPROPERTY(VisibleAnywhere, Category = "Reference")
 	class ADelegateMaster* delegateMaster;
 
-	UPROPERTY(EditAnywhere, Category = "Parameters Attack")
 	class AMyPlayerController* PlayerControllerRef;
 
 #pragma endregion
@@ -147,24 +132,29 @@ public:
 
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
+	// Implementato anche in BP
 	UFUNCTION()
 	void AttackOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
+	// Implementato anche in BP
 	UFUNCTION()
 	void AttackOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 	UFUNCTION()
 	void ChangeSpeed(float Speed, float Duration);
 
+	// forse da levare
 	UFUNCTION()
 	void BlockRotation();
 
 	UFUNCTION()
 	void SpeedReset();
 
+	// implementato anche in BP
 	UFUNCTION()
 	void Sprint();
 
+	// implementato anche in BP
 	UFUNCTION()
 	void StopSprint();
 

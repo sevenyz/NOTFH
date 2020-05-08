@@ -18,7 +18,7 @@ public:
 	// Sets default values for this component's properties
 	UBackpackPL();
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(EditAnywhere)
 	int MagicEssence = 10;
 
 	UPROPERTY(VisibleAnywhere)
@@ -33,7 +33,6 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	int counterSlow;
 
-	UPROPERTY(VisibleAnywhere)
 	class ADelegateMaster* delegateMaster;
 
 protected:
