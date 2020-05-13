@@ -74,7 +74,7 @@ public:
 
 	class ABoss* BossRef;
 
-	class AMinion* minionRef;
+	class ANewMinion* minionRef;
 
 	class ADelegateMaster* delegateMaster;
 

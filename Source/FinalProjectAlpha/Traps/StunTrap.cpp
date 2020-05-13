@@ -6,6 +6,7 @@
 #include "Components/BoxComponent.h"
 #include "FinalProjectAlphaCharacter.h"
 #include "Boss.h"
+#include "NewMinion.h"
 
 // Sets default values
 AStunTrap::AStunTrap()
@@ -41,9 +42,7 @@ void AStunTrap::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * Ot
 {
 	if (OtherActor->ActorHasTag("Boss"))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Boss overlap with stun trap"))
-
-			ABoss* Boss = Cast<ABoss>(OtherActor);
+		ABoss* Boss = Cast<ABoss>(OtherActor);
 		if (Boss && Boss->bBerserkMood == false)
 		{
 			Boss->ChangeSpeed(0, StunTime);
@@ -51,21 +50,27 @@ void AStunTrap::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * Ot
 			Boss->bBossStun = true;
 			Boss->ControlBoolTrapBoss();
 		}
+	}
 
-		Destroy();
+	else if (OtherActor->ActorHasTag("Minion"))
+	{
+		ANewMinion* Minion = Cast<ANewMinion>(OtherActor);
+		if (Minion) 
+		{
+			Minion->ChangeSpeed(0, StunTime);
+			Minion->BlockRotation();
+		}
 	}
 
 	else if (OtherActor->ActorHasTag("Player"))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Player overlap with stun trap"))
-
-			AFinalProjectAlphaCharacter* Player = Cast<AFinalProjectAlphaCharacter>(OtherActor);
+		AFinalProjectAlphaCharacter* Player = Cast<AFinalProjectAlphaCharacter>(OtherActor);
 		if (Player)
 		{
 			Player->ChangeSpeed(0, StunTime);
 			Player->BlockRotation();
 		}
-
-		Destroy();
 	}
+
+	Destroy();
 }

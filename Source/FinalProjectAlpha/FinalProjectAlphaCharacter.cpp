@@ -13,7 +13,7 @@
 #include "DrawDebugHelpers.h"
 #include "TimerManager.h"
 #include "Boss.h"
-#include "Minion.h"
+#include "NewMinion.h"
 #include "Player/MyPlayerController.h"
 #include "GameFramework/WorldSettings.h"
 #include "Engine/World.h"
@@ -182,7 +182,7 @@ void AFinalProjectAlphaCharacter::AttackOverlap(UPrimitiveComponent * Overlapped
 
 	if (OtherActor->ActorHasTag("Minion"))
 	{
-		minionRef = Cast<AMinion>(OtherActor);
+		minionRef = Cast<ANewMinion>(OtherActor);
 
 		if (minionRef)
 		{
