@@ -64,7 +64,7 @@ public:
 	UFUNCTION()
 	void SpeedReset();
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void CalculateDamage(int damageDirect);
 
 	UFUNCTION(BlueprintImplementableEvent)

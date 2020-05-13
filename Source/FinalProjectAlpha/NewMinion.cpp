@@ -84,7 +84,7 @@ void ANewMinion::Attack()
 	if (bCanAttack)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("PlayerTakeDamage"))
-		//Player->TakeDamage();
+		PlayerRef->TakeDamage(Damage);
 	}
 }
 

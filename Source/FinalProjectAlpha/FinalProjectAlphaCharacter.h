@@ -31,7 +31,7 @@ public:
 
 #pragma region Attack Components
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	class UBoxComponent* AttackCollider;
 
 #pragma endregion
@@ -51,7 +51,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Parameters")
 	int MaxHP = 100;
 
-	UPROPERTY(EditAnywhere, Category = "Parameters")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Parameters")
 	int Damage = 20;
 
 	UPROPERTY(EditAnywhere, Category = "Parameters")
@@ -181,5 +181,8 @@ public:
 
 	UFUNCTION()
 	void ScrollDown();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void TakeDamage(int DamageToTake);
 };
 

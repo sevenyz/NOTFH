@@ -59,8 +59,8 @@ AFinalProjectAlphaCharacter::AFinalProjectAlphaCharacter()
 	AttackCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("AttackCollider"));
 	AttackCollider->SetupAttachment(RootComponent);
 	
-	AttackCollider->OnComponentBeginOverlap.AddDynamic(this, &AFinalProjectAlphaCharacter::AttackOverlap);
-	AttackCollider->OnComponentEndOverlap.AddDynamic(this, &AFinalProjectAlphaCharacter::AttackOverlapEnd);
+	//AttackCollider->OnComponentBeginOverlap.AddDynamic(this, &AFinalProjectAlphaCharacter::AttackOverlap);
+	//AttackCollider->OnComponentEndOverlap.AddDynamic(this, &AFinalProjectAlphaCharacter::AttackOverlapEnd);
 
 	CraftingMode = false;
 
@@ -84,7 +84,7 @@ void AFinalProjectAlphaCharacter::SetupPlayerInputComponent(class UInputComponen
 	PlayerInputComponent->BindAction("ScrollUpTrap", IE_Pressed, this, &AFinalProjectAlphaCharacter::ScrollUp);
 	PlayerInputComponent->BindAction("ScrollDownTrap", IE_Pressed, this, &AFinalProjectAlphaCharacter::ScrollDown);
 
-	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AFinalProjectAlphaCharacter::Attack);
+	//PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AFinalProjectAlphaCharacter::Attack);
 
 	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &AFinalProjectAlphaCharacter::Sprint);
 	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &AFinalProjectAlphaCharacter::StopSprint);
