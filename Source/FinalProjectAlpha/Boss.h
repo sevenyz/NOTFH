@@ -39,6 +39,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Parameters")
 	int	HP = 100;
 
+	UPROPERTY(EditAnywhere, Category = "Parameters")
+	int	AttackDamage = 20;
+
 	UPROPERTY(VisibleAnywhere, Category = "Parameters")
 	bool bBerserkMood = false;
 

@@ -8,6 +8,7 @@
 #include "TimerManager.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
 #include "Components/BoxComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "FinalProjectAlphaCharacter.h"
 
 
@@ -32,6 +33,12 @@ void ABoss::BeginPlay()
 
 	AAIController* AIController = UAIBlueprintHelperLibrary::GetAIController(this);
 	AIController->UseBlackboard(BlackboardToUse, Blackboard);
+
+	ACharacter* Character = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+	if (Character) 
+	{
+		PlayerRef = Cast<AFinalProjectAlphaCharacter>(Character);
+	}
 }
 
 // Called every frame
@@ -124,12 +131,7 @@ void ABoss::AttackOverlap(UPrimitiveComponent * OverlappedComp, AActor * OtherAc
 {
 	if (OtherActor->ActorHasTag("Player"))
 	{
-		PlayerRef = Cast<AFinalProjectAlphaCharacter>(OtherActor);
-
-		if (PlayerRef)
-		{
-			bCanAttack = true;
-		}
+		bCanAttack = true;
 	}
 }
 
@@ -143,6 +145,7 @@ void ABoss::Attack()
 	if (bCanAttack)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("PlayerTakeDamage"))
+		PlayerRef->TakeDamage(AttackDamage);
 	}
 }
 
