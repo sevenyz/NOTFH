@@ -170,42 +170,12 @@ void AFinalProjectAlphaCharacter::CanAttack()
 
 void AFinalProjectAlphaCharacter::AttackOverlap(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
 {
-	if (OtherActor->ActorHasTag("Boss"))
-	{
-		BossRef = Cast<ABoss>(OtherActor);
-
-		if (BossRef)
-		{
-			bBossInArea = true;
-		}
-	}
-
-	if (OtherActor->ActorHasTag("Minion"))
-	{
-		minionRef = Cast<ANewMinion>(OtherActor);
-
-		if (minionRef)
-		{
-			bMinionArea = true;
-		}
-	}
+	
 }
 
 void AFinalProjectAlphaCharacter::AttackOverlapEnd(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex)
 {
-	if (OtherActor->ActorHasTag("Boss"))
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Attack player no possible Boss"));
-
-		bBossInArea = false;
-	}
-
-	else if (OtherActor->ActorHasTag("Minion"))
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Attack player no possible Minion"));
-
-		bMinionArea = false;
-	}
+	
 }
 
 #pragma region Movement and Jump
