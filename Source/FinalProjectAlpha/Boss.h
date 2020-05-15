@@ -21,19 +21,19 @@ public:
 	UPROPERTY()
 	FTimerHandle TrapTimerHandle;
 
-	/*UPROPERTY(BlueprintReadWrite)
-	bool bIsStunned;*/
-
 	UPROPERTY(EditAnywhere)
 	UBlackboardData* BlackboardToUse;
 
 	UPROPERTY(EditAnywhere)
 	UBlackboardComponent* Blackboard;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(BlueprintReadWrite)
 	FName IsStunnedKeyName = "IsStunned";
 
 	UPROPERTY()
+	FName IsHitKeyName = "IsHit";
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	bool bIsStunned;
 
 	UPROPERTY(EditAnywhere, Category = "Parameters")
@@ -45,10 +45,10 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "Parameters")
 	bool bBerserkMood = false;
 
-	UPROPERTY(VisibleAnywhere, Category = "Parameters")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Parameters")
 	bool bBossStun = false;
 
-	UPROPERTY(VisibleAnywhere, Category = "Parameters")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Parameters")
 	bool bBossDamage = false;
 
 	UPROPERTY(VisibleAnywhere)
@@ -99,8 +99,8 @@ public:
 	UFUNCTION()
 	void SpeedReset();
 
-	UFUNCTION()
-	void DamageCalculation();
+	UFUNCTION(BlueprintCallable)
+	void CalculateDamage(int damageDirect);
 
 	UFUNCTION()
 	void Berserk();

@@ -139,7 +139,7 @@ void AFinalProjectAlphaCharacter::Attack()
 				BossRef->Berserk();
 			}
 
-			BossRef->DamageCalculation();
+			//BossRef->DamageCalculation();
 
 			bCanAttack = false;
 

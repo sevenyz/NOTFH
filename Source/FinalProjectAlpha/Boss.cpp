@@ -62,11 +62,12 @@ void ABoss::SpeedReset()
 	GetCharacterMovement()->MaxWalkSpeed = 400.f;
 
 	this->bUseControllerRotationYaw = true;
+	bBossStun = false;
 	bIsStunned = false;
 
 	if (Blackboard->HasValidAsset())
 	{
-		Blackboard->SetValueAsBool(IsStunnedKeyName, false);
+		//Blackboard->SetValueAsBool(IsStunnedKeyName, false);
 		UE_LOG(LogTemp, Warning, TEXT("set value false"))
 	}
 }
@@ -83,11 +84,17 @@ void ABoss::BlockRotation()
 	}
 }
 
-void ABoss::DamageCalculation()
+void ABoss::CalculateDamage(int damageDirect)
 {
 	if (bIsStunned)
 	{
+		Blackboard->SetValueAsBool(IsHitKeyName, true);
 		UE_LOG(LogTemp, Warning, TEXT("Boss take damage"));
+	}
+
+	if (bBossDamage) 
+	{
+		Blackboard->SetValueAsBool(IsHitKeyName, true);
 	}
 }
 

@@ -66,7 +66,7 @@ void ANewMinion::BlockRotation()
 
 void ANewMinion::CalculateDamage(int damageDirect)
 {
-	Blackboard->SetValueAsBool(IsHittedKeyName, true);
+	Blackboard->SetValueAsBool(IsHitKeyName, true);
 	HP -= damageDirect;
 
 	if (HP <= 0)

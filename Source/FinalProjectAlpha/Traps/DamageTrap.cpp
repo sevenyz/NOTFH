@@ -41,11 +41,12 @@ void ADamageTrap::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * 
 		UE_LOG(LogTemp, Warning, TEXT("Boss overlap with Damage Trap"))
 
 		ABoss* Boss = Cast<ABoss>(OtherActor);
-		if (Boss && Boss->bBerserkMood == false)
+		if (Boss)
 		{
 			Boss->HP -= Damage;
 			Boss->bBossDamage = true;
 			Boss->ControlBoolTrapBoss();
+			Boss->CalculateDamage(Damage);
 		}	
 	}
 

@@ -48,7 +48,7 @@ public:
 	UBlackboardComponent* Blackboard;
 
 	FName IsStunnedKeyName = "IsStunned";
-	FName IsHittedKeyName = "IsHitted";
+	FName IsHitKeyName = "IsHit";
 
 
 
