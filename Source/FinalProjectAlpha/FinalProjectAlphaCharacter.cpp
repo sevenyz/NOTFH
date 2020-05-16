@@ -271,6 +271,8 @@ void AFinalProjectAlphaCharacter::OpenPannelCrafting()
 		GetCharacterMovement()->bOrientRotationToMovement = false;
 		UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.2);
 		this->CustomTimeDilation = 1;
+
+		bIsCraftingPanelOpen = true;
 	}
 }
 
@@ -284,6 +286,8 @@ void AFinalProjectAlphaCharacter::ClosePannelCrafting()
 		delegateMaster->SwitchImage.ExecuteIfBound();
 		UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 1);
 		this->CustomTimeDilation = 1;
+
+		bIsCraftingPanelOpen = false;
 	}
 }
 

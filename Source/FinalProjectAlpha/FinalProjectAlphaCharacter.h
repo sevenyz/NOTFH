@@ -75,6 +75,9 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	bool bCanAttack = true;
 
+	UPROPERTY(BlueprintReadWrite)
+	bool bIsCraftingPanelOpen = false;
+
 	class ABoss* BossRef;
 
 	class ANewMinion* minionRef;
