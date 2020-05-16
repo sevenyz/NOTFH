@@ -16,7 +16,7 @@ public:
 	ADamageTrap();
 
 	UPROPERTY(VisibleAnywhere)
-	UStaticMeshComponent* Mesh;
+	class UDecalComponent* Decal;
 
 	UPROPERTY(VisibleAnywhere)
 	class UBoxComponent* Collider;
@@ -34,8 +34,6 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);

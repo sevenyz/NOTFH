@@ -1,36 +1,28 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
+
 #include "DamageTrap.h"
-#include "Components/StaticMeshComponent.h"
+#include "Components/DecalComponent.h"
 #include "Components/BoxComponent.h"
 #include "Boss.h"
 #include "NewMinion.h"
+#include "FinalProjectAlphaCharacter.h"
 
 // Sets default values
 ADamageTrap::ADamageTrap()
 {
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-
 	Collider = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxComponent"));
-	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComponent"));
-
-	RootComponent = Mesh;
-	Collider->SetupAttachment(RootComponent);
-
+	RootComponent = Collider;
 	Collider->OnComponentBeginOverlap.AddDynamic(this, &ADamageTrap::OnOverlapBegin);
 
+	Decal = CreateDefaultSubobject<UDecalComponent>(TEXT("Decal"));
+	Decal->SetupAttachment(Collider);
 }
 
 // Called when the game starts or when spawned
 void ADamageTrap::BeginPlay()
 {
 	Super::BeginPlay();
-
-}
-
-// Called every frame
-void ADamageTrap::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
 
 }
 
@@ -48,6 +40,7 @@ void ADamageTrap::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * 
 			Boss->ControlBoolTrapBoss();
 			Boss->CalculateDamage(Damage);
 		}	
+		Destroy();
 	}
 
 	else if (OtherActor->ActorHasTag("Minion"))
@@ -55,11 +48,19 @@ void ADamageTrap::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * 
 		ANewMinion* Minion = Cast<ANewMinion>(OtherActor);
 		if (Minion)
 		{
-			//Minion->HP -= Damage;
 			Minion->CalculateDamage(Damage);
 		}
+		Destroy();
 	}
 
-	Destroy();
+	else if (OtherComp->ComponentHasTag("PlayerCollider"))
+	{
+		AFinalProjectAlphaCharacter* Player = Cast<AFinalProjectAlphaCharacter>(OtherActor);
+		if (Player)
+		{
+			Player->TakeDamage(Damage);
+		}
+		Destroy();
+	}
 }
 

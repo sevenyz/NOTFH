@@ -2,7 +2,7 @@
 
 
 #include "StunTrap.h"
-#include "Components/StaticMeshComponent.h"
+#include "Components/DecalComponent.h"
 #include "Components/BoxComponent.h"
 #include "FinalProjectAlphaCharacter.h"
 #include "Boss.h"
@@ -11,17 +11,12 @@
 // Sets default values
 AStunTrap::AStunTrap()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-
 	Collider = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxComponent"));
-	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComponent"));
-
-	RootComponent = Mesh;
-	Collider->SetupAttachment(RootComponent);
-
+	RootComponent = Collider;
 	Collider->OnComponentBeginOverlap.AddDynamic(this, &AStunTrap::OnOverlapBegin);
 
+	Decal = CreateDefaultSubobject<UDecalComponent>(TEXT("Decal"));
+	Decal->SetupAttachment(Collider);
 }
 
 // Called when the game starts or when spawned
@@ -29,13 +24,6 @@ void AStunTrap::BeginPlay()
 {
 	Super::BeginPlay();
 	
-}
-
-// Called every frame
-void AStunTrap::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
 }
 
 void AStunTrap::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
@@ -50,6 +38,7 @@ void AStunTrap::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * Ot
 			Boss->bBossStun = true;
 			Boss->ControlBoolTrapBoss();
 		}
+		Destroy();
 	}
 
 	else if (OtherActor->ActorHasTag("Minion"))
@@ -60,17 +49,18 @@ void AStunTrap::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * Ot
 			Minion->ChangeSpeed(0, StunTime);
 			Minion->BlockRotation();
 		}
+		Destroy();
 	}
 
-	else if (OtherActor->ActorHasTag("Player"))
+	else if (OtherComp->ComponentHasTag("PlayerCollider"))
 	{
 		AFinalProjectAlphaCharacter* Player = Cast<AFinalProjectAlphaCharacter>(OtherActor);
 		if (Player)
 		{
+			UE_LOG(LogTemp, Warning, TEXT("Collision"))
 			Player->ChangeSpeed(0, StunTime);
 			Player->BlockRotation();
 		}
+		Destroy();
 	}
-
-	Destroy();
 }
