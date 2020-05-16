@@ -8,11 +8,15 @@
 #include "Blueprint/AIBlueprintHelperLibrary.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Components/BoxComponent.h"
 
 // Sets default values
 ANewMinion::ANewMinion()
 {
-
+	AttackCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("AttackCollider"));
+	AttackCollider->SetupAttachment(RootComponent);
+	AttackCollider->OnComponentBeginOverlap.AddDynamic(this, &ANewMinion::AttackOverlap);
+	AttackCollider->OnComponentEndOverlap.AddDynamic(this, &ANewMinion::AttackOverlapEnd);
 }
 
 // Called when the game starts or when spawned
@@ -67,15 +71,31 @@ void ANewMinion::BlockRotation()
 void ANewMinion::CalculateDamage(int damageDirect)
 {
 	Blackboard->SetValueAsBool(IsHitKeyName, true);
-	HP -= damageDirect;
+	CurrentHP -= damageDirect;
 
-	if (HP <= 0)
+	if (CurrentHP <= 0)
 	{
 		FVector locationToSpawn = (GetActorLocation() + FVector(0.0f, 0.0f, 50.0f));
 		FRotator rotatorToSpawn = FRotator::ZeroRotator;
 
 		GetWorld()->SpawnActor(MagicalEssence, &locationToSpawn, &rotatorToSpawn);
 		Death();
+	}
+}
+
+void ANewMinion::AttackOverlap(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
+{
+	if (OtherComp->ComponentHasTag("PlayerCollider")) 
+	{
+		bCanAttack = true;
+	}	
+}
+
+void ANewMinion::AttackOverlapEnd(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex)
+{
+	if (OtherComp->ComponentHasTag("PlayerCollider"))
+	{
+		bCanAttack = false;
 	}
 }
 

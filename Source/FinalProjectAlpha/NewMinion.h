@@ -22,14 +22,20 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	float StunTime;
 
-	UPROPERTY(EditAnywhere)
-	int HP = 100;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
+	float MaxHP = 100;
 
-	UPROPERTY(EditAnywhere, Category = "Params Minion")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
+	float CurrentHP = MaxHP;
+
+	UPROPERTY(EditAnywhere, Category = "Parameters")
 	int Damage = 5;
 
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	bool bCanAttack = true;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	class UBoxComponent* AttackCollider;
 
 	UPROPERTY(EditAnywhere, Category = "Magic Essence")
 	TSubclassOf<class AMagical_Essence> MagicalEssence;
@@ -50,8 +56,6 @@ public:
 	FName IsStunnedKeyName = "IsStunned";
 	FName IsHitKeyName = "IsHit";
 
-
-
 	UFUNCTION(BlueprintCallable)
 	void Attack();
 
@@ -69,6 +73,13 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void Death();
+
+	UFUNCTION()
+	void AttackOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+	void AttackOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
 
 protected:
 	// Called when the game starts or when spawned

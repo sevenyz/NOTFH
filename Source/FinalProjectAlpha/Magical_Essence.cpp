@@ -23,9 +23,9 @@ AMagical_Essence::AMagical_Essence()
 	Collider->BodyInstance.SetCollisionProfileName("OverlapAllDynamic");
 	Collider->OnComponentBeginOverlap.AddDynamic(this, &AMagical_Essence::OnOverlapBegin);
 
-	ConstructorHelpers::FObjectFinder<UStaticMesh>meshFromAsset(TEXT("StaticMesh'/Game/Environment/Static_Meshes/eyeball.eyeball'"));
+	//ConstructorHelpers::FObjectFinder<UStaticMesh>meshFromAsset(TEXT("StaticMesh'/Game/Environment/Static_Meshes/eyeball.eyeball'"));
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComponent"));
-	Mesh->SetStaticMesh(meshFromAsset.Object);
+	//Mesh->SetStaticMesh(meshFromAsset.Object);
 	Mesh->SetupAttachment(RootComponent);
 
 	PitchValue = 0.f;
