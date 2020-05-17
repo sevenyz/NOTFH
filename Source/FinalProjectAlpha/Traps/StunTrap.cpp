@@ -28,7 +28,7 @@ void AStunTrap::BeginPlay()
 
 void AStunTrap::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
 {
-	if (OtherActor->ActorHasTag("Boss"))
+	if (OtherComp->ComponentHasTag("BossCollider"))
 	{
 		ABoss* Boss = Cast<ABoss>(OtherActor);
 		if (Boss && Boss->bBerserkMood == false)
@@ -41,14 +41,20 @@ void AStunTrap::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * Ot
 		Destroy();
 	}
 
-	else if (OtherActor->ActorHasTag("Minion"))
+	else if (OtherComp->ComponentHasTag("MinionCollider"))
 	{
 		ANewMinion* Minion = Cast<ANewMinion>(OtherActor);
 		if (Minion) 
 		{
+			UE_LOG(LogTemp, Warning, TEXT("Collision minion"))
 			Minion->ChangeSpeed(0, StunTime);
 			Minion->BlockRotation();
 		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("minion cast fail"))
+		}
+		
 		Destroy();
 	}
 

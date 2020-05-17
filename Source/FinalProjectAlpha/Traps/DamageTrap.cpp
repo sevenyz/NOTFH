@@ -28,7 +28,7 @@ void ADamageTrap::BeginPlay()
 
 void ADamageTrap::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
 {
-	if (OtherActor->ActorHasTag("Boss"))
+	if (OtherComp->ComponentHasTag("BossCollider"))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Boss overlap with Damage Trap"))
 
@@ -43,7 +43,7 @@ void ADamageTrap::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * 
 		Destroy();
 	}
 
-	else if (OtherActor->ActorHasTag("Minion"))
+	else if (OtherComp->ComponentHasTag("MinionCollider"))
 	{
 		ANewMinion* Minion = Cast<ANewMinion>(OtherActor);
 		if (Minion)
