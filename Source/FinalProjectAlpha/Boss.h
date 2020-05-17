@@ -36,8 +36,11 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	bool bIsStunned;
 
-	UPROPERTY(EditAnywhere, Category = "Parameters")
-	int	HP = 100;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
+	float MaxHP = 100;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
+	float CurrentHP = MaxHP;
 
 	UPROPERTY(EditAnywhere, Category = "Parameters")
 	int	AttackDamage = 20;
@@ -100,7 +103,7 @@ public:
 	void SpeedReset();
 
 	UFUNCTION(BlueprintCallable)
-	void CalculateDamage(int damageDirect);
+	void CalculateDamage(int NormalDamage, int DamageIfStunned);
 
 	UFUNCTION()
 	void Berserk();
@@ -119,4 +122,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void Attack();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void Death();
 };

@@ -35,10 +35,9 @@ void ADamageTrap::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * 
 		ABoss* Boss = Cast<ABoss>(OtherActor);
 		if (Boss)
 		{
-			Boss->HP -= Damage;
 			Boss->bBossDamage = true;
 			Boss->ControlBoolTrapBoss();
-			Boss->CalculateDamage(Damage);
+			Boss->CalculateDamage(Damage, 0);
 		}	
 		Destroy();
 	}

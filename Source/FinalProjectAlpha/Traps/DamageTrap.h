@@ -22,7 +22,7 @@ public:
 	class UBoxComponent* Collider;
 
 	UPROPERTY(EditAnywhere, Category = "Settings")
-	int Damage = 10;
+	int Damage;
 
 	UPROPERTY(EditAnywhere, Category = "Info Craft")
 	float TimeCraft = 3.0f;

@@ -84,17 +84,28 @@ void ABoss::BlockRotation()
 	}
 }
 
-void ABoss::CalculateDamage(int damageDirect)
+void ABoss::CalculateDamage(int NormalDamage, int DamageIfStunned)
 {
 	if (bIsStunned)
 	{
 		Blackboard->SetValueAsBool(IsHitKeyName, true);
 		UE_LOG(LogTemp, Warning, TEXT("Boss take damage"));
+		CurrentHP -= DamageIfStunned;
+	}
+	else
+	{
+		CurrentHP -= NormalDamage;
 	}
 
 	if (bBossDamage) 
 	{
 		Blackboard->SetValueAsBool(IsHitKeyName, true);
+		CurrentHP -= NormalDamage;
+	}
+
+	if (CurrentHP <= 0) 
+	{
+		Death();
 	}
 }
 
