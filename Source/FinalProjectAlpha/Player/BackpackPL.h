@@ -18,7 +18,7 @@ public:
 	// Sets default values for this component's properties
 	UBackpackPL();
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int MagicEssence = 10;
 
 	UPROPERTY(VisibleAnywhere)
