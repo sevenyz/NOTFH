@@ -13,6 +13,10 @@ UBackpackPL::UBackpackPL()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
+
+	CounterTrap.Add(TEXT("Stun"), counterStun);
+	CounterTrap.Add(TEXT("Slow"), counterSlow);
+	CounterTrap.Add(TEXT("Damage"), counterDamage);
 }
 
 
@@ -25,9 +29,7 @@ void UBackpackPL::BeginPlay()
 
 	delegateMaster->AddTrap.BindUObject(this, &UBackpackPL::AddTrapInInventory);
 
-	CounterTrap.Add(TEXT("Stun"), counterStun);
-	CounterTrap.Add(TEXT("Slow"), counterSlow);
-	CounterTrap.Add(TEXT("Damage"), counterDamage);
+	
 	
 }
 

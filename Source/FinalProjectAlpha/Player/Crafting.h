@@ -36,6 +36,11 @@ public:
 	UPROPERTY(EditAnywhere, Category = "TrapCost")
 	int32 StunTrapCost;
 
+	int* MinValue = nullptr;
+
+	UPROPERTY(EditAnywhere, Category = "Distance trap")
+    float SpawnDistance = 200.f;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -52,4 +57,6 @@ public:
 
 	UFUNCTION()
 	void ControllTrap(int index);
+
+	FString ControlStringInventory(int index);
 };

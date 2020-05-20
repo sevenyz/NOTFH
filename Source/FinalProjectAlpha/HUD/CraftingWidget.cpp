@@ -3,6 +3,7 @@
 
 #include "CraftingWidget.h"
 #include "Kismet/GameplayStatics.h"
+#include "Engine/World.h"
 
 void UCraftingWidget::NativeConstruct()
 {
@@ -16,6 +17,8 @@ void UCraftingWidget::NativeConstruct()
 void UCraftingWidget::CallCheckInfoTrap(int index)
 {
 	delegateMaster->InfoTrap.ExecuteIfBound(delegateMaster->IndexTexture);
+
+	GetWorld()->GetFirstPlayerController()->SetInputMode(FInputModeGameAndUI());
 }
 
 void UCraftingWidget::ResetIndex()

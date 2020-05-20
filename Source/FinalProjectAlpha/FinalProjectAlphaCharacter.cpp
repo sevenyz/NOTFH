@@ -90,7 +90,9 @@ void AFinalProjectAlphaCharacter::SetupPlayerInputComponent(class UInputComponen
 	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &AFinalProjectAlphaCharacter::StopSprint);
 
 	PlayerInputComponent->BindAction("Crafting", IE_Pressed, this, &AFinalProjectAlphaCharacter::OpenPannelCrafting);
-	PlayerInputComponent->BindAction("Crafting", IE_Released, this, &AFinalProjectAlphaCharacter::ClosePannelCrafting);
+	//PlayerInputComponent->BindAction("Crafting", IE_Released, this, &AFinalProjectAlphaCharacter::ClosePannelCrafting);
+
+	PlayerInputComponent->BindAction("CreateTrap", IE_Pressed, this, &AFinalProjectAlphaCharacter::CreateTrap);
 }
 
 void AFinalProjectAlphaCharacter::BeginPlay()
@@ -266,13 +268,25 @@ void AFinalProjectAlphaCharacter::OpenPannelCrafting()
 {
 	if (PlayerControllerRef != nullptr)
 	{
-		PlayerControllerRef->OpenCrafting();
-		CameraBoom->bUsePawnControlRotation = false;
-		GetCharacterMovement()->bOrientRotationToMovement = false;
-		UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.2);
-		this->CustomTimeDilation = 1;
-
-		bIsCraftingPanelOpen = true;
+		if (!bIsCraftingPanelOpen)
+		{
+			PlayerControllerRef->OpenCrafting();
+			CameraBoom->bUsePawnControlRotation = false;
+			GetCharacterMovement()->bOrientRotationToMovement = false;
+			UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.2);
+			this->CustomTimeDilation = 1;
+			bIsCraftingPanelOpen = true;
+		}
+		else
+		{
+			CameraBoom->bUsePawnControlRotation = true;
+			GetCharacterMovement()->bOrientRotationToMovement = true;
+			delegateMaster->SwitchImage.ExecuteIfBound();
+			UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 1);
+			this->CustomTimeDilation = 1;
+			PlayerControllerRef->CloseCrafting();
+			bIsCraftingPanelOpen = false;
+		}
 	}
 }
 
@@ -280,12 +294,12 @@ void AFinalProjectAlphaCharacter::ClosePannelCrafting()
 {
 	if (PlayerControllerRef != nullptr)
 	{
-		PlayerControllerRef->CloseCrafting();
 		CameraBoom->bUsePawnControlRotation = true;
 		GetCharacterMovement()->bOrientRotationToMovement = true;
 		delegateMaster->SwitchImage.ExecuteIfBound();
 		UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 1);
 		this->CustomTimeDilation = 1;
+		PlayerControllerRef->CloseCrafting();
 
 		bIsCraftingPanelOpen = false;
 	}
@@ -301,4 +315,9 @@ void AFinalProjectAlphaCharacter::ScrollDown()
 {
 	delegateMaster->bImageDown = true;
 	delegateMaster->SwitchImage.ExecuteIfBound();
+}
+
+void AFinalProjectAlphaCharacter::CreateTrap()
+{
+    delegateMaster->CreateTrap.ExecuteIfBound(delegateMaster->IndexTexture);
 }

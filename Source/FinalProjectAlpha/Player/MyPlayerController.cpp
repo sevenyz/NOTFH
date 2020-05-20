@@ -37,6 +37,7 @@ void AMyPlayerController::OpenCrafting()
 			WCraftingRef->AddToViewport();
 		}
 		bShowMouseCursor = true;
+
 	}
 
 	else
@@ -44,6 +45,8 @@ void AMyPlayerController::OpenCrafting()
 		WCraftingRef->SetVisibility(ESlateVisibility::Visible);
 		bShowMouseCursor = true;
 	}
+
+	SetInputMode(FInputModeGameAndUI());
 
 }
 
@@ -61,4 +64,6 @@ void AMyPlayerController::CloseCrafting()
 
 		bShowMouseCursor = false;
 	}
+
+	SetInputMode(FInputModeGameOnly());
 }

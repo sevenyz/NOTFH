@@ -22,16 +22,16 @@ public:
 	int MagicEssence = 10;
 
 	UPROPERTY(VisibleAnywhere)
-	TMap<FString, int32> CounterTrap;
+	TMap<FString, int> CounterTrap;
 
 	UPROPERTY(VisibleAnywhere)
-	int counterDamage;
+	int counterDamage = 2;
 
 	UPROPERTY(VisibleAnywhere)
-	int counterStun;
+	int counterStun = 2;
 
 	UPROPERTY(VisibleAnywhere)
-	int counterSlow;
+	int counterSlow = 2;
 
 	class ADelegateMaster* delegateMaster;
 

@@ -29,6 +29,8 @@ void UCrafting::BeginPlay()
 	delegateMaster = Cast<ADelegateMaster>(UGameplayStatics::GetActorOfClass(GetWorld(), ADelegateMaster::StaticClass()));
 
 	delegateMaster->InfoTrap.BindUObject(this, &UCrafting::ControllTrap);
+
+	delegateMaster->CreateTrap.BindUObject(this, &UCrafting::SetTrap);
 	
 }
 
@@ -41,15 +43,60 @@ void UCrafting::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 	// ...
 }
 
+FString UCrafting::ControlStringInventory(int index)
+{
+    switch (index)
+    {
+    case 0:
+        return ("Damage");
+        break;
+
+    case 1:
+        return ("Slow");
+        break;
+
+    default:
+        return ("Stun");
+        break;
+    }
+}
+
 void UCrafting::SetTrap(int indexActor)
 {
-	TrapSelected = AllActorTrap[indexActor];
-	PlaceTrap();
+	FString KeyInventory;
+    int* ValueInventory;
+
+    //*MinValue = 1;
+
+    KeyInventory = ControlStringInventory(indexActor);
+
+    UE_LOG(LogTemp, Warning, TEXT("%s"), *KeyInventory);
+    
+    ValueInventory = BackpackRef->CounterTrap.Find(KeyInventory);
+
+	UE_LOG(LogTemp, Warning, TEXT("%i"), *ValueInventory)
+
+	/*
+    if (ValueInventory > 0)
+    {
+        *ValueInventory--;
+		UE_LOG(LogTemp, Warning, TEXT("%i"), *ValueInventory)
+		//BackpackRef->CounterTrap.Add(KeyInventory, ValueInventory);
+        TrapSelected = AllActorTrap[indexActor];
+        PlaceTrap();
+    }
+    */
 }
 
 void UCrafting::PlaceTrap()
 {
-	//TrapCrafting();
+	FVector locationToSpawn = (GetOwner()->GetActorLocation() + (GetOwner()->GetActorForwardVector() * SpawnDistance));
+    FVector locationFinalSpawn = (locationToSpawn + FVector(0.0f, 0.0f, -140.f));
+    FRotator rotatorToSpawn = FRotator::ZeroRotator;
+
+    GetWorld()->SpawnActor(TrapSelected, &locationFinalSpawn, &rotatorToSpawn);
+
+	GetWorld()->GetFirstPlayerController()->SetInputMode(FInputModeGameAndUI());
 }
 
 void UCrafting::ControllTrap(int index)

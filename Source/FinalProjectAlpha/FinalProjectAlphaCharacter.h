@@ -190,5 +190,8 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void TakeDamage(int DamageToTake);
+
+	UFUNCTION()
+    void CreateTrap();
 };
 

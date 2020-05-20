@@ -11,6 +11,7 @@ DECLARE_DELEGATE(FuncSwitchImage)
 DECLARE_DELEGATE_OneParam(CheckInfoTrap, int)
 DECLARE_DELEGATE(CraftingTrapFail)
 DECLARE_DELEGATE(AddTrapToInventory)
+DECLARE_DELEGATE_OneParam(InputCreateTrap, int)
 
 UCLASS()
 class FINALPROJECTALPHA_API ADelegateMaster : public AActor
@@ -29,6 +30,8 @@ public:
 
 	AddTrapToInventory AddTrap;
 
+	InputCreateTrap CreateTrap;
+
 	UPROPERTY()
 	bool bImageUp;
 
@@ -39,7 +42,7 @@ public:
 	int32 IndexTexture;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HUD")
-	TArray<class UTexture2D*> AllTextureTrap;
+	TArray<class UTexture2D*> AllTextureTrap;	
 
 protected:
 	// Called when the game starts or when spawned
