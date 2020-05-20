@@ -195,10 +195,20 @@ void AFinalProjectAlphaCharacter::LookUpAtRate(float Rate)
 
 void AFinalProjectAlphaCharacter::MoveForward(float Value)
 {
-	if ((Controller != NULL) && (Value != 0.0f))
+	if (!bIsLocked)
 	{
 		// find out which way is forward
 		const FRotator Rotation = Controller->GetControlRotation();
+		const FRotator YawRotation(0, Rotation.Yaw, 0);
+
+		// get forward vector
+		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+		AddMovementInput(Direction, Value);
+	}
+	else
+	{
+		// find out which way is forward
+		const FRotator Rotation = GetFollowCamera()->GetComponentRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
 
 		// get forward vector
@@ -209,10 +219,21 @@ void AFinalProjectAlphaCharacter::MoveForward(float Value)
 
 void AFinalProjectAlphaCharacter::MoveRight(float Value)
 {
-	if ((Controller != NULL) && (Value != 0.0f))
+	if (!bIsLocked)
 	{
 		// find out which way is right
 		const FRotator Rotation = Controller->GetControlRotation();
+		const FRotator YawRotation(0, Rotation.Yaw, 0);
+
+		// get right vector 
+		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+		// add movement in that direction
+		AddMovementInput(Direction, Value);
+	}
+	else
+	{
+		// find out which way is right
+		const FRotator Rotation = GetFollowCamera()->GetComponentRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
 
 		// get right vector 

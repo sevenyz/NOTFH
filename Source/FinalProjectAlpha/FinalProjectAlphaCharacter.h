@@ -75,6 +75,9 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	bool bCanAttack = true;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	bool bIsLocked;
+
 	UPROPERTY(BlueprintReadWrite)
 	bool bIsCraftingPanelOpen = false;
 
