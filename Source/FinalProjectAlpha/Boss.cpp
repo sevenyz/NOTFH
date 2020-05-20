@@ -94,7 +94,12 @@ void ABoss::CalculateDamage(int NormalDamage, int DamageIfStunned)
 	}
 	else
 	{
+		//AttaccoConSpada
 		CurrentHP -= NormalDamage;
+		if (Blackboard->HasValidAsset())
+		{
+			Blackboard->SetValueAsBool(HasLineOfSightKeyName, true);
+		}
 	}
 
 	if (bBossDamage) 

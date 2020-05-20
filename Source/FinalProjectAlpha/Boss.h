@@ -32,6 +32,9 @@ public:
 
 	UPROPERTY()
 	FName IsHitKeyName = "IsHit";
+	
+	UPROPERTY()
+	FName HasLineOfSightKeyName = "HasLineOfSight";
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	bool bIsStunned;
