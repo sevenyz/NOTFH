@@ -58,7 +58,7 @@ public:
 	int Damage = 20;
 
 	UPROPERTY(EditAnywhere, Category = "Parameters")
-	float MaxSprint = 700.0f;
+	float MaxSprint = 900.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
 	float NormalSpeed = 600.0f;
@@ -92,21 +92,38 @@ public:
 #pragma endregion
 
 #pragma region Stamina Parameters
-	UPROPERTY(EditAnywhere, Category = "Stamina Parameters")
-	int Stamina = 500;
 
-	UPROPERTY(EditAnywhere, Category = "Stamina Parameters")
+	//Aggiunto, necessario per il calcolo della percentuale della progress bar
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stamina Parameters")
+	int MaxStamina = 50;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stamina Parameters")
+	int Stamina = 50;
+
+	//Aggiunti per nuova funzione SPRINT
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stamina Parameters")
+	float StaminaRefillRate = 0.2f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stamina Parameters")
+	float StaminaDrainRate = 0.1f;
+
+	FTimerHandle StaminaRefillTimerHandle;
+	FTimerHandle StaminaDrainTimerHandle;
+
+	//fine elementi aggiunti
+
+	UPROPERTY(EditAnywhere, Category = "Stamina Parameters")			//Obsoleto
 	float ReloadStamina = 5.0f;
 
-	UPROPERTY(EditAnywhere, Category = "Stamina Parameters")
+	UPROPERTY(EditAnywhere, Category = "Stamina Parameters")			//Obsoleto
 	float DownloadStamina = 1.0f;
 
-	UPROPERTY(EditAnywhere, Category = "Stamina Parameters")
+	UPROPERTY(EditAnywhere, Category = "Stamina Parameters")			//Obsoleto
 	float StaminaJump = 5;
 
-	FTimerHandle TimerStaminaDecrement;
+	FTimerHandle TimerStaminaDecrement;									//Obsoleto
 
-	FTimerHandle TimerStaminaIncrement;
+	FTimerHandle TimerStaminaIncrement;									//Obsoleto
 #pragma endregion
 
 protected:
@@ -174,10 +191,17 @@ public:
 	void CanAttack();
 
 	UFUNCTION()
-	void DecrementStamina();
+	void DecrementStamina();	//Obsoleta
 
 	UFUNCTION()
-	void IncrementStamina();
+	void IncrementStamina();	//Obsoleta
+
+	UFUNCTION()
+		void RefillStamina(); // aggiunto per nuova funzione SPRINT
+	UFUNCTION()
+		void DrainStamina(); // aggiunto per nuova funzione SPRINT
+
+
 
 	UFUNCTION()
 	void OpenPannelCrafting();

@@ -249,18 +249,61 @@ void AFinalProjectAlphaCharacter::MoveRight(float Value)
 
 void AFinalProjectAlphaCharacter::Sprint()
 {
+	//Sostituito
+	/* 
 	ChangeSpeed(MaxSprint, MaxRotation);
 	GetWorld()->GetTimerManager().ClearTimer(TimerStaminaIncrement);
 	GetWorldTimerManager().SetTimer(TimerStaminaDecrement, this, &AFinalProjectAlphaCharacter::DecrementStamina, true, DownloadStamina);
+	*/
+
+	if (Stamina > 0) 
+	{
+		GetCharacterMovement()->MaxWalkSpeed = MaxSprint;
+		GetWorld()->GetTimerManager().ClearTimer(StaminaRefillTimerHandle);
+		GetWorld()->GetTimerManager().SetTimer(StaminaDrainTimerHandle, this, &AFinalProjectAlphaCharacter::DrainStamina, StaminaDrainRate, true, -1.f);
+	}
+
 }
 
 void AFinalProjectAlphaCharacter::StopSprint()
 {
+	//Obsoleta
+	/*
 	ChangeSpeed(NormalSpeed, MaxRotation);
 	GetWorld()->GetTimerManager().ClearTimer(TimerStaminaDecrement);
 	GetWorldTimerManager().SetTimer(TimerStaminaIncrement, this, &AFinalProjectAlphaCharacter::IncrementStamina, true, ReloadStamina);
+	*/
+	
+	GetCharacterMovement()->MaxWalkSpeed = NormalSpeed;
+	GetWorld()->GetTimerManager().ClearTimer(StaminaDrainTimerHandle);
+	GetWorld()->GetTimerManager().SetTimer(StaminaRefillTimerHandle, this, &AFinalProjectAlphaCharacter::RefillStamina, StaminaRefillRate, true, -1.f);
 }
 
+void AFinalProjectAlphaCharacter::RefillStamina()
+{
+	if (Stamina < MaxStamina)
+	{
+		Stamina++;
+	}
+	else
+	{
+		GetWorld()->GetTimerManager().ClearTimer(StaminaRefillTimerHandle);
+	}
+}
+
+void AFinalProjectAlphaCharacter::DrainStamina()
+{
+	if (Stamina > 0)
+	{
+		Stamina--;
+	}
+	else
+	{
+		StopSprint();
+	}
+}
+
+	//Obsoleta
 void AFinalProjectAlphaCharacter::DecrementStamina()
 {
 	if (Stamina < 1) {
@@ -271,7 +314,7 @@ void AFinalProjectAlphaCharacter::DecrementStamina()
 		Stamina--;
 	}
 }
-
+	//Obsoleta
 void AFinalProjectAlphaCharacter::IncrementStamina()
 {
 	if (Stamina > 14) {
@@ -282,6 +325,7 @@ void AFinalProjectAlphaCharacter::IncrementStamina()
 		Stamina++;
 	}
 }
+
 
 #pragma endregion
 
