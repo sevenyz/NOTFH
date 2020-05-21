@@ -256,7 +256,7 @@ void AFinalProjectAlphaCharacter::Sprint()
 	GetWorldTimerManager().SetTimer(TimerStaminaDecrement, this, &AFinalProjectAlphaCharacter::DecrementStamina, true, DownloadStamina);
 	*/
 
-	if (Stamina > 0) 
+	if (Stamina > 0 && !bIsCrouched) 
 	{
 		GetCharacterMovement()->MaxWalkSpeed = MaxSprint;
 		GetWorld()->GetTimerManager().ClearTimer(StaminaRefillTimerHandle);
