@@ -81,18 +81,18 @@ void AFinalProjectAlphaCharacter::SetupPlayerInputComponent(class UInputComponen
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis("LookUpRate", this, &AFinalProjectAlphaCharacter::LookUpAtRate);
 
-	PlayerInputComponent->BindAction("ScrollUpTrap", IE_Pressed, this, &AFinalProjectAlphaCharacter::ScrollUp);
-	PlayerInputComponent->BindAction("ScrollDownTrap", IE_Pressed, this, &AFinalProjectAlphaCharacter::ScrollDown);
+	//PlayerInputComponent->BindAction("ScrollUpTrap", IE_Pressed, this, &AFinalProjectAlphaCharacter::ScrollUp);
+	//PlayerInputComponent->BindAction("ScrollDownTrap", IE_Pressed, this, &AFinalProjectAlphaCharacter::ScrollDown);
 
 	//PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AFinalProjectAlphaCharacter::Attack);
 
 	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &AFinalProjectAlphaCharacter::Sprint);
 	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &AFinalProjectAlphaCharacter::StopSprint);
 
-	PlayerInputComponent->BindAction("Crafting", IE_Pressed, this, &AFinalProjectAlphaCharacter::OpenPannelCrafting);
+	//PlayerInputComponent->BindAction("Crafting", IE_Pressed, this, &AFinalProjectAlphaCharacter::OpenPannelCrafting);
 	//PlayerInputComponent->BindAction("Crafting", IE_Released, this, &AFinalProjectAlphaCharacter::ClosePannelCrafting);
 
-	PlayerInputComponent->BindAction("CreateTrap", IE_Pressed, this, &AFinalProjectAlphaCharacter::CreateTrap);
+	//PlayerInputComponent->BindAction("CreateTrap", IE_Pressed, this, &AFinalProjectAlphaCharacter::CreateTrap);
 }
 
 void AFinalProjectAlphaCharacter::BeginPlay()

@@ -8,6 +8,34 @@
 #include "Utility/DelegateMaster.h"
 #include "FinalProjectAlphaCharacter.generated.h"
 
+UENUM()
+enum ETrapType
+{
+    Damage,
+    Stun,
+    Slow,
+};
+
+USTRUCT(BlueprintType)
+struct FTrapStats
+{
+public:
+    GENERATED_USTRUCT_BODY()
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, BlueprintType)
+    TEnumAsByte<ETrapType> TrapType;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    int32 TrapCost;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    int32 TrapCounter;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 TrapIndex;
+
+};
+
 UCLASS(config=Game)
 class AFinalProjectAlphaCharacter : public ACharacter
 {
@@ -43,6 +71,12 @@ public:
 
 	UPROPERTY()
 	bool CraftingMode;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TArray <FTrapStats> TrapArray;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FTrapStats SelectedTrap;
 
 #pragma endregion
 

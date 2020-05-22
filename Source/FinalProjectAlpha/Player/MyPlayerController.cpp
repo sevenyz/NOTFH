@@ -11,11 +11,11 @@ void AMyPlayerController::BeginPlay()
 
 	if (WidgetGame)
 	{
-		WGameRef = CreateWidget<UUserWidget>(this, WidgetGame);
+		//WGameRef = CreateWidget<UUserWidget>(this, WidgetGame);
 
 		if (WGameRef)
 		{
-			WGameRef->AddToViewport();
+			//WGameRef->AddToViewport();
 		}
 	}
 
@@ -30,11 +30,11 @@ void AMyPlayerController::OpenCrafting()
 
 	if (WCraftingRef == nullptr)
 	{
-		WCraftingRef = CreateWidget<UUserWidget>(this, WidgetCrafting);
+		//WCraftingRef = CreateWidget<UUserWidget>(this, WidgetCrafting);
 
 		if (WCraftingRef)
 		{
-			WCraftingRef->AddToViewport();
+			//WCraftingRef->AddToViewport();
 		}
 		bShowMouseCursor = true;
 
