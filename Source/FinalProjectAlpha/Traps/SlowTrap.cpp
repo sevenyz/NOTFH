@@ -55,6 +55,10 @@ void ASlowTrap::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * Ot
 		if (Player)
 		{
 			Player->ChangeSpeed(300, SlowTime);
+			Player->bCanSprint = false;
+			Player->bCanDodge = false;
+			Player->bCanAttack = true;
+			Player->ClearStaminaDrainTimer();
 		}	
 		Destroy();
 	}

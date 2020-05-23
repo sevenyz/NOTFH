@@ -92,10 +92,10 @@ public:
 	int Damage = 20;
 
 	UPROPERTY(EditAnywhere, Category = "Parameters")
-	float MaxSprint = 900.0f;
+	float MaxSprint;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
-	float NormalSpeed = 600.0f;
+	float NormalSpeed;
 
 	UPROPERTY(EditAnywhere, Category = "Parameters")
 	float MaxRotation = 540.0f;
@@ -112,8 +112,17 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	bool bIsLocked;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	bool bCanSprint = true;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	bool bCanDodge = true;
+
 	UPROPERTY(BlueprintReadWrite)
 	bool bIsCraftingPanelOpen = false;
+
+	UPROPERTY(BlueprintReadWrite)
+	bool bIsStunned = false;
 
 	class ABoss* BossRef;
 
@@ -146,6 +155,7 @@ public:
 
 	//fine elementi aggiunti
 
+	/*
 	UPROPERTY(EditAnywhere, Category = "Stamina Parameters")			//Obsoleto
 	float ReloadStamina = 5.0f;
 
@@ -158,6 +168,7 @@ public:
 	FTimerHandle TimerStaminaDecrement;									//Obsoleto
 
 	FTimerHandle TimerStaminaIncrement;									//Obsoleto
+	*/
 #pragma endregion
 
 protected:
@@ -218,22 +229,25 @@ public:
 	UFUNCTION()
 	void StopSprint();
 
+	UFUNCTION(BlueprintCallable)
+	void ClearStaminaDrainTimer();
+
 	UFUNCTION()
 	void Attack();
 
 	UFUNCTION()
 	void CanAttack();
 
-	UFUNCTION()
-	void DecrementStamina();	//Obsoleta
+	//UFUNCTION()
+	//void DecrementStamina();	//Obsoleta
+
+	//UFUNCTION()
+	//void IncrementStamina();	//Obsoleta
 
 	UFUNCTION()
-	void IncrementStamina();	//Obsoleta
-
+	void RefillStamina(); // aggiunto per nuova funzione SPRINT
 	UFUNCTION()
-		void RefillStamina(); // aggiunto per nuova funzione SPRINT
-	UFUNCTION()
-		void DrainStamina(); // aggiunto per nuova funzione SPRINT
+	void DrainStamina(); // aggiunto per nuova funzione SPRINT
 
 
 

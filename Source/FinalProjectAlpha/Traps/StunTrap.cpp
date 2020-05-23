@@ -66,6 +66,11 @@ void AStunTrap::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * Ot
 			UE_LOG(LogTemp, Warning, TEXT("Collision"))
 			Player->ChangeSpeed(0, StunTime);
 			Player->BlockRotation();
+			Player->bCanSprint = false;
+			Player->bCanDodge = false;
+			Player->bCanAttack = false;
+			Player->bIsStunned = true;
+			Player->ClearStaminaDrainTimer();
 		}
 		Destroy();
 	}

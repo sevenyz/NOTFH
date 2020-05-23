@@ -103,6 +103,8 @@ void AFinalProjectAlphaCharacter::BeginPlay()
 
 	delegateMaster = Cast<ADelegateMaster>(UGameplayStatics::GetActorOfClass(GetWorld(), ADelegateMaster::StaticClass()));
 
+	GetCharacterMovement()->MaxWalkSpeed = NormalSpeed;
+
 }
 
 
@@ -121,6 +123,10 @@ void AFinalProjectAlphaCharacter::SpeedReset()
 {
 	GetCharacterMovement()->MaxWalkSpeed = NormalSpeed;
 	GetCharacterMovement()->RotationRate.Yaw = MaxRotation;
+	bCanSprint = true;
+	bCanDodge = true;
+	bCanAttack = true;
+	bIsStunned = false;
 }
 
 // forse da levare
@@ -256,11 +262,12 @@ void AFinalProjectAlphaCharacter::Sprint()
 	GetWorldTimerManager().SetTimer(TimerStaminaDecrement, this, &AFinalProjectAlphaCharacter::DecrementStamina, true, DownloadStamina);
 	*/
 
-	if (Stamina > 0 && !bIsCrouched) 
+	if (Stamina > 0 && bCanSprint && bCanAttack) 
 	{
 		GetCharacterMovement()->MaxWalkSpeed = MaxSprint;
 		GetWorld()->GetTimerManager().ClearTimer(StaminaRefillTimerHandle);
 		GetWorld()->GetTimerManager().SetTimer(StaminaDrainTimerHandle, this, &AFinalProjectAlphaCharacter::DrainStamina, StaminaDrainRate, true, -1.f);
+		UnCrouch();
 	}
 
 }
@@ -273,8 +280,16 @@ void AFinalProjectAlphaCharacter::StopSprint()
 	GetWorld()->GetTimerManager().ClearTimer(TimerStaminaDecrement);
 	GetWorldTimerManager().SetTimer(TimerStaminaIncrement, this, &AFinalProjectAlphaCharacter::IncrementStamina, true, ReloadStamina);
 	*/
-	
-	GetCharacterMovement()->MaxWalkSpeed = NormalSpeed;
+	if (bCanSprint)
+	{
+		GetCharacterMovement()->MaxWalkSpeed = NormalSpeed;
+		GetWorld()->GetTimerManager().ClearTimer(StaminaDrainTimerHandle);
+		GetWorld()->GetTimerManager().SetTimer(StaminaRefillTimerHandle, this, &AFinalProjectAlphaCharacter::RefillStamina, StaminaRefillRate, true, -1.f);	
+	}
+}
+
+void AFinalProjectAlphaCharacter::ClearStaminaDrainTimer()
+{
 	GetWorld()->GetTimerManager().ClearTimer(StaminaDrainTimerHandle);
 	GetWorld()->GetTimerManager().SetTimer(StaminaRefillTimerHandle, this, &AFinalProjectAlphaCharacter::RefillStamina, StaminaRefillRate, true, -1.f);
 }
@@ -303,6 +318,7 @@ void AFinalProjectAlphaCharacter::DrainStamina()
 	}
 }
 
+/*
 	//Obsoleta
 void AFinalProjectAlphaCharacter::DecrementStamina()
 {
@@ -325,6 +341,7 @@ void AFinalProjectAlphaCharacter::IncrementStamina()
 		Stamina++;
 	}
 }
+*/
 
 
 #pragma endregion
