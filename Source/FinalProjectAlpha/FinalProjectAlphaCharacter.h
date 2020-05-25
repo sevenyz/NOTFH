@@ -85,7 +85,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
 	int MaxHP = 100;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
+	UPROPERTY(BlueprintReadWrite, Category = "Parameters")
 	int CurrentHP = MaxHP;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Parameters")
