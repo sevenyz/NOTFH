@@ -73,14 +73,16 @@ void ANewMinion::CalculateDamage(int damageDirect)
 	Blackboard->SetValueAsBool(IsHitKeyName, true);
 	CurrentHP -= damageDirect;
 
+	
 	if (CurrentHP <= 0)
 	{
-		FVector locationToSpawn = (GetActorLocation() + FVector(0.0f, 0.0f, 50.0f));
-		FRotator rotatorToSpawn = FRotator::ZeroRotator;
+		//FVector locationToSpawn = (GetActorLocation() + FVector(0.0f, 0.0f, 50.0f));
+		//FRotator rotatorToSpawn = FRotator::ZeroRotator;
 
-		GetWorld()->SpawnActor(MagicalEssence, &locationToSpawn, &rotatorToSpawn);
+		//GetWorld()->SpawnActor(MagicalEssence, &locationToSpawn, &rotatorToSpawn);
 		Death();
 	}
+	
 }
 
 void ANewMinion::AttackOverlap(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
