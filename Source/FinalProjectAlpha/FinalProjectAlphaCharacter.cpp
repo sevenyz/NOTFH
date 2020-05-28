@@ -264,12 +264,14 @@ void AFinalProjectAlphaCharacter::Sprint()
 
 	if (Stamina > 0 && bCanSprint && bCanAttack) 
 	{
-		GetCharacterMovement()->MaxWalkSpeed = MaxSprint;
-		GetWorld()->GetTimerManager().ClearTimer(StaminaRefillTimerHandle);
-		GetWorld()->GetTimerManager().SetTimer(StaminaDrainTimerHandle, this, &AFinalProjectAlphaCharacter::DrainStamina, StaminaDrainRate, true, -1.f);
-		UnCrouch();
+		if (GetCharacterMovement()->Velocity != FVector::ZeroVector)
+		{
+			GetCharacterMovement()->MaxWalkSpeed = MaxSprint;
+			GetWorld()->GetTimerManager().ClearTimer(StaminaRefillTimerHandle);
+			GetWorld()->GetTimerManager().SetTimer(StaminaDrainTimerHandle, this, &AFinalProjectAlphaCharacter::DrainStamina, StaminaDrainRate, true, -1.f);
+			UnCrouch();
+		}
 	}
-
 }
 
 void AFinalProjectAlphaCharacter::StopSprint()
