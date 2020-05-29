@@ -263,7 +263,7 @@ public:
 	UFUNCTION()
 	void ScrollDown();
 
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void TakeDamage(int DamageToTake);
 
 	UFUNCTION()

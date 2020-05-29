@@ -92,6 +92,13 @@ void ABoss::CalculateDamage(int NormalDamage, int DamageIfStunned)
 		UE_LOG(LogTemp, Warning, TEXT("Boss take damage"));
 		CurrentHP -= DamageIfStunned;
 	}
+
+	else if (bBossDamage) 
+	{
+		Blackboard->SetValueAsBool(IsHitKeyName, true);
+		CurrentHP -= NormalDamage;
+	}
+
 	else
 	{
 		//AttaccoConSpada
@@ -100,12 +107,6 @@ void ABoss::CalculateDamage(int NormalDamage, int DamageIfStunned)
 		{
 			Blackboard->SetValueAsBool(HasLineOfSightKeyName, true);
 		}
-	}
-
-	if (bBossDamage) 
-	{
-		Blackboard->SetValueAsBool(IsHitKeyName, true);
-		CurrentHP -= NormalDamage;
 	}
 
 	if (CurrentHP <= 0) 
