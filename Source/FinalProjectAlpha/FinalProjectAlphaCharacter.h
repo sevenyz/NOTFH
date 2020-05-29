@@ -9,7 +9,7 @@
 #include "FinalProjectAlphaCharacter.generated.h"
 
 UENUM()
-enum ETrapType
+enum EGrimadeSelection
 {
     Damage,
     Stun,
@@ -17,22 +17,22 @@ enum ETrapType
 };
 
 USTRUCT(BlueprintType)
-struct FTrapStats
+struct FGrimadeStats
 {
 public:
     GENERATED_USTRUCT_BODY()
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, BlueprintType)
-    TEnumAsByte<ETrapType> TrapType;
+    TEnumAsByte<EGrimadeSelection> GrimadeSelection;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    int32 TrapCost;
+    int32 GrimadeCost;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    int32 TrapCounter;
+    int32 CraftedGrimadesCount;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32 TrapIndex;
+	int32 GrimadeIndex;
 
 };
 
@@ -73,10 +73,13 @@ public:
 	bool CraftingMode;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TArray <FTrapStats> TrapArray;
+    TArray <FGrimadeStats> GrimadeArray;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FTrapStats SelectedTrap;
+    FGrimadeStats SelectedGrimade;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 SelectedGrimadeIndex;
 
 #pragma endregion
 
