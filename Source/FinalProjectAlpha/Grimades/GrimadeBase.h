@@ -21,7 +21,7 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* Mesh;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	class UProjectileMovementComponent* ProjectileComponent;
 
 protected:
