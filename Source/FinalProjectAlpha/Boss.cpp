@@ -153,7 +153,7 @@ void ABoss::ResetBoolTrapBoss()
 
 void ABoss::AttackOverlap(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
 {
-	if (OtherActor->ActorHasTag("Player"))
+	if (OtherComp->ComponentHasTag("PlayerCollider")) 
 	{
 		bCanAttack = true;
 	}
@@ -161,7 +161,10 @@ void ABoss::AttackOverlap(UPrimitiveComponent * OverlappedComp, AActor * OtherAc
 
 void ABoss::AttackOverlapEnd(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex)
 {
-	bCanAttack = false;
+	if (OtherComp->ComponentHasTag("PlayerCollider")) 
+	{
+		bCanAttack = false;
+	}
 }
 
 void ABoss::Attack()
