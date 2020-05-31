@@ -19,7 +19,7 @@ public:
 	UBackpackPL();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int MagicEssence = 10;
+	int MagicEssence = 6;
 
 	UPROPERTY(VisibleAnywhere)
 	TMap<FString, int> CounterTrap;
