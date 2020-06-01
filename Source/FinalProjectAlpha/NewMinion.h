@@ -19,7 +19,7 @@ public:
 	// Sets default values for this character's properties
 	ANewMinion();
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadWrite)
 	float StunTime;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
@@ -59,10 +59,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void Attack();
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void ChangeSpeed(float Speed, float Duration);
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void BlockRotation();
 
 	UFUNCTION()

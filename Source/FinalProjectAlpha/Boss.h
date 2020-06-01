@@ -96,10 +96,10 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void ChangeSpeed(float Speed, float Duration);
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void BlockRotation();
 
 	UFUNCTION()
