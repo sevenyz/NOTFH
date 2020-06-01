@@ -86,6 +86,7 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	bool bPlayerInArea = false;
 
+	UPROPERTY(BlueprintReadOnly)
 	class AFinalProjectAlphaCharacter* PlayerRef;
 
 protected:
