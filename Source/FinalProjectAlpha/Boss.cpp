@@ -84,16 +84,9 @@ void ABoss::BlockRotation()
 	}
 }
 
-void ABoss::CalculateDamage(int NormalDamage, int DamageIfStunned)
+void ABoss::CalculateDamage(int NormalDamage)
 {
-	if (bIsStunned)
-	{
-		Blackboard->SetValueAsBool(IsHitKeyName, true);
-		UE_LOG(LogTemp, Warning, TEXT("Boss take damage"));
-		CurrentHP -= DamageIfStunned;
-	}
-
-	else if (bBossDamage) 
+	if (bIsBombDamage)
 	{
 		Blackboard->SetValueAsBool(IsHitKeyName, true);
 		CurrentHP -= NormalDamage;
@@ -128,7 +121,7 @@ void ABoss::ControlBoolTrapBoss()
 	if (bBossStun) {
 	GetWorld()->GetTimerManager().SetTimer(TimerControlBoolStun, this, &ABoss::ResetBoolTrapBoss, true, TimerCheck);
 	}
-	else if (bBossDamage) {
+	else if (bIsBombDamage) {
 	GetWorld()->GetTimerManager().SetTimer(TimerControlBoolDamage, this, &ABoss::ResetBoolTrapBoss, true, TimerCheck);
 	}
 }
@@ -139,8 +132,8 @@ void ABoss::ResetBoolTrapBoss()
 		bBossStun = false;
 		GetWorld()->GetTimerManager().ClearTimer(TimerControlBoolStun);
 	}
-	if (bBossDamage) {
-		bBossDamage = false;
+	if (bIsBombDamage) {
+		bIsBombDamage = false;
 		GetWorld()->GetTimerManager().ClearTimer(TimerControlBoolDamage);
 	}
 	else

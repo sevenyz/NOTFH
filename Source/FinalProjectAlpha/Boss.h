@@ -55,7 +55,7 @@ public:
 	bool bBossStun = false;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Parameters")
-	bool bBossDamage = false;
+	bool bIsBombDamage = false;
 
 	UPROPERTY(VisibleAnywhere)
 	float TimerCheck = 4.0f;
@@ -107,7 +107,7 @@ public:
 	void SpeedReset();
 
 	UFUNCTION(BlueprintCallable)
-	void CalculateDamage(int NormalDamage, int DamageIfStunned);
+	void CalculateDamage(int NormalDamage);
 
 	UFUNCTION()
 	void Berserk();
