@@ -127,6 +127,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void Attack();
 
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void Death();
 };

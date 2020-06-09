@@ -15,7 +15,7 @@ public:
 	// Sets default values for this actor's properties
 	AGrimadeBase();
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	class USphereComponent* Collider;
 
 	UPROPERTY(VisibleAnywhere)
