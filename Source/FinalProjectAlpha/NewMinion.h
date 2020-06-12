@@ -71,7 +71,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void CalculateDamage(int damageDirect);
 
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void Death();
 
 	UFUNCTION()
