@@ -127,6 +127,9 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	bool bIsStunned = false;
 
+	UPROPERTY(BlueprintReadWrite)
+	bool bIsBloodDrainActive = false;
+
 	class ABoss* BossRef;
 
 	class ANewMinion* minionRef;

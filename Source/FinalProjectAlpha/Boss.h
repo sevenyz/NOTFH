@@ -48,6 +48,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
 	int	AttackDamage = 20;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
+	float HeatShockMultiplier = 1;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Parameters")
+	float HeatShockDamage = 1;
+
 	UPROPERTY(VisibleAnywhere, Category = "Parameters")
 	bool bBerserkMood = false;
 

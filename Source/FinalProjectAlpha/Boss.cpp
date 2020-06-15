@@ -95,7 +95,7 @@ void ABoss::CalculateDamage(int NormalDamage)
 	else
 	{
 		//AttaccoConSpada
-		CurrentHP -= NormalDamage;
+		CurrentHP -= NormalDamage * HeatShockDamage;
 		if (Blackboard->HasValidAsset())
 		{
 			Blackboard->SetValueAsBool(HasLineOfSightKeyName, true);
