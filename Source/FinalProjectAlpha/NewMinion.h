@@ -40,6 +40,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Magic Essence")
 	TSubclassOf<class AMagical_Essence> MagicalEssence;
 
+	UPROPERTY(BlueprintReadWrite)
 	class AFinalProjectAlphaCharacter* PlayerRef;
 
 	FTimerHandle TimerAttack;
