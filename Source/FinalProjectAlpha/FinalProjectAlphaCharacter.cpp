@@ -101,7 +101,7 @@ void AFinalProjectAlphaCharacter::BeginPlay()
 
 	PlayerControllerRef = Cast<AMyPlayerController>(UGameplayStatics::GetPlayerController(this, 0));
 
-	delegateMaster = Cast<ADelegateMaster>(UGameplayStatics::GetActorOfClass(GetWorld(), ADelegateMaster::StaticClass()));
+	//delegateMaster = Cast<ADelegateMaster>(UGameplayStatics::GetActorOfClass(GetWorld(), ADelegateMaster::StaticClass()));
 
 	GetCharacterMovement()->MaxWalkSpeed = NormalSpeed;
 

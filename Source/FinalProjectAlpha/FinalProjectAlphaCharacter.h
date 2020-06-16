@@ -86,10 +86,10 @@ public:
 #pragma region Player Parameters
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
-	int MaxHP = 100;
+	float MaxHP = 100;
 
 	UPROPERTY(BlueprintReadWrite, Category = "Parameters")
-	int CurrentHP = MaxHP;
+	float CurrentHP = MaxHP;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Parameters")
 	int Damage = 20;
@@ -270,7 +270,7 @@ public:
 	void ScrollDown();
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-	void TakeDamage(int DamageToTake);
+	void TakeDamage(float DamageToTake);
 
 	UFUNCTION()
     void CreateTrap();
