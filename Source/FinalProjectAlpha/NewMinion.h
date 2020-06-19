@@ -31,6 +31,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
 	int Damage = 5;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
+	float HeatShockMultiplier = 1;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Parameters")
+	float HeatShockDamage = 1;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	bool bCanAttack = true;
 

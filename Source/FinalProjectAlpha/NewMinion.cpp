@@ -71,8 +71,7 @@ void ANewMinion::BlockRotation()
 void ANewMinion::CalculateDamage(int damageDirect)
 {
 	Blackboard->SetValueAsBool(IsHitKeyName, true);
-	CurrentHP -= damageDirect;
-
+	CurrentHP -= damageDirect * HeatShockDamage;
 	
 	if (CurrentHP <= 0)
 	{
@@ -82,7 +81,6 @@ void ANewMinion::CalculateDamage(int damageDirect)
 		//GetWorld()->SpawnActor(MagicalEssence, &locationToSpawn, &rotatorToSpawn);
 		Death();
 	}
-	
 }
 
 void ANewMinion::AttackOverlap(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
