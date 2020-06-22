@@ -30,6 +30,9 @@ public:
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     int32 CraftedGrimadesCount;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    int32 GrimadesMaxCount;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 GrimadeIndex;
