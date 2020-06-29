@@ -45,7 +45,6 @@ void ABoss::BeginPlay()
 void ABoss::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 void ABoss::ChangeSpeed(float Speed, float Duration)
@@ -101,6 +100,14 @@ void ABoss::CalculateDamage(int NormalDamage)
 			Blackboard->SetValueAsBool(HasLineOfSightKeyName, true);
 		}
 	}
+
+	/*
+	if (CurrentHP/MaxHP <= Phase3)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Phase3"))
+		NormalAttackCooldown = 0.f;
+	}
+	*/
 
 	if (CurrentHP <= 0) 
 	{

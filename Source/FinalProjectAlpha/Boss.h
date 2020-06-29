@@ -75,6 +75,15 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Berserk Mood")
 	float VelocityMovementBerserkMood = 600.f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
+	float Phase2 = 0.75f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
+	float Phase3 = 0.40f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
+	float NormalAttackCooldown = 0.3f;
+
 	FTimerHandle TimerControlBoolStun;
 
 	FTimerHandle TimerControlBoolDamage;
