@@ -90,7 +90,6 @@ void ABoss::CalculateDamage(int NormalDamage)
 		Blackboard->SetValueAsBool(IsHitKeyName, true);
 		CurrentHP -= NormalDamage * HeatShockDamage;
 	}
-
 	else
 	{
 		//AttaccoConSpada

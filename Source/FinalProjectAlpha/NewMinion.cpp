@@ -70,8 +70,18 @@ void ANewMinion::BlockRotation()
 
 void ANewMinion::CalculateDamage(int damageDirect)
 {
-	Blackboard->SetValueAsBool(IsHitKeyName, true);
-	CurrentHP -= damageDirect * HeatShockDamage;
+	float DistanceFromPlayer = GetDistanceTo(PlayerRef);
+	
+	if (DistanceFromPlayer <= 200.f && FMath::RandRange(1, 10) <= StepbackBeforeAttackProbability && !Blackboard->GetValueAsBool(IsStunnedKeyName))
+	{
+		Blackboard->SetValueAsBool(CanStepbackName, true);			
+	}
+	else 
+	{
+		Blackboard->SetValueAsBool(IsHitKeyName, true);
+		CurrentHP -= damageDirect * HeatShockDamage;
+		bHasTakenDamage = true;
+	}
 	
 	if (CurrentHP <= 0)
 	{

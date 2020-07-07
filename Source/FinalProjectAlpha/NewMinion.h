@@ -32,6 +32,9 @@ public:
 	int Damage = 5;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
+	int StepbackBeforeAttackProbability = 5;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
 	float HeatShockMultiplier = 1;
 
 	UPROPERTY(BlueprintReadWrite, Category = "Parameters")
@@ -39,6 +42,9 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	bool bCanAttack = true;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	bool bHasTakenDamage = false;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	class UBoxComponent* AttackCollider;
@@ -62,6 +68,7 @@ public:
 
 	FName IsStunnedKeyName = "IsStunned";
 	FName IsHitKeyName = "IsHit";
+	FName CanStepbackName = "CanStepback";
 
 	UFUNCTION(BlueprintCallable)
 	void Attack();
