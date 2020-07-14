@@ -159,6 +159,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stamina Parameters")
 	float StaminaDrainRate = 0.1f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stamina Parameters")
+	float StaminaRefillWaitTime = 2.f;
+
 	FTimerHandle StaminaRefillTimerHandle;
 	FTimerHandle StaminaDrainTimerHandle;
 

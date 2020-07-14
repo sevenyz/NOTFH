@@ -286,14 +286,14 @@ void AFinalProjectAlphaCharacter::StopSprint()
 	{
 		GetCharacterMovement()->MaxWalkSpeed = NormalSpeed;
 		GetWorld()->GetTimerManager().ClearTimer(StaminaDrainTimerHandle);
-		GetWorld()->GetTimerManager().SetTimer(StaminaRefillTimerHandle, this, &AFinalProjectAlphaCharacter::RefillStamina, StaminaRefillRate, true, -1.f);	
+		GetWorld()->GetTimerManager().SetTimer(StaminaRefillTimerHandle, this, &AFinalProjectAlphaCharacter::RefillStamina, StaminaRefillRate, true, StaminaRefillWaitTime);	
 	}
 }
 
 void AFinalProjectAlphaCharacter::ClearStaminaDrainTimer()
 {
 	GetWorld()->GetTimerManager().ClearTimer(StaminaDrainTimerHandle);
-	GetWorld()->GetTimerManager().SetTimer(StaminaRefillTimerHandle, this, &AFinalProjectAlphaCharacter::RefillStamina, StaminaRefillRate, true, -1.f);
+	GetWorld()->GetTimerManager().SetTimer(StaminaRefillTimerHandle, this, &AFinalProjectAlphaCharacter::RefillStamina, StaminaRefillRate, true, StaminaRefillWaitTime);
 }
 
 void AFinalProjectAlphaCharacter::RefillStamina()
