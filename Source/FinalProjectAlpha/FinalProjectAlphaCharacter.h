@@ -94,7 +94,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "Parameters")
 	float CurrentHP = MaxHP;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Parameters")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
 	int Damage = 20;
 
 	UPROPERTY(EditAnywhere, Category = "Parameters")
