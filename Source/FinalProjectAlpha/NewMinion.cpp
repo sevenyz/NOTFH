@@ -74,7 +74,7 @@ void ANewMinion::CalculateDamage(int damageDirect)
 	
 	if (DistanceFromPlayer <= 200.f && FMath::RandRange(1, 10) <= StepbackBeforeAttackProbability && !Blackboard->GetValueAsBool(IsStunnedKeyName))
 	{
-		Blackboard->SetValueAsBool(CanStepbackName, true);			
+		Blackboard->SetValueAsBool(CanStepbackName, true);	
 	}
 	else 
 	{
