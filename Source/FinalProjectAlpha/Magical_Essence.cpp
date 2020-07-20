@@ -60,6 +60,8 @@ void AMagical_Essence::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AAct
 		{
 			BackpackRef->MagicEssence++;
 
+			
+
 			UE_LOG(LogTemp, Warning, TEXT("Magical Essence = %d"), BackpackRef->MagicEssence)
 
 			Destroy(this);
