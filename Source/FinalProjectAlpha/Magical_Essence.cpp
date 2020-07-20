@@ -7,6 +7,7 @@
 #include "ConstructorHelpers.h"
 #include "FinalProjectAlphaCharacter.h"
 #include "Player/BackpackPL.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AMagical_Essence::AMagical_Essence()
@@ -60,7 +61,7 @@ void AMagical_Essence::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AAct
 		{
 			BackpackRef->MagicEssence++;
 
-			
+			UGameplayStatics::PlaySound2D(GetWorld(), CollectionSound);
 
 			UE_LOG(LogTemp, Warning, TEXT("Magical Essence = %d"), BackpackRef->MagicEssence)
 

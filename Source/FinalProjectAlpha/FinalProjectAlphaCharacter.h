@@ -162,6 +162,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stamina Parameters")
 	float StaminaRefillWaitTime = 2.f;
 
+	UPROPERTY(EditAnywhere)
+	class USoundBase* StaminaEndSound;
+
 	FTimerHandle StaminaRefillTimerHandle;
 	FTimerHandle StaminaDrainTimerHandle;
 

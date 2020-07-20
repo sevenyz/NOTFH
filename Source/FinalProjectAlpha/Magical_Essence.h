@@ -33,6 +33,9 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	class UBackpackPL* BackpackRef;
 
+	UPROPERTY(EditAnywhere)
+	class USoundBase* CollectionSound;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

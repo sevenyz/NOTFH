@@ -317,6 +317,7 @@ void AFinalProjectAlphaCharacter::DrainStamina()
 	else
 	{
 		StopSprint();
+		UGameplayStatics::PlaySound2D(GetWorld(), StaminaEndSound);
 	}
 }
 
